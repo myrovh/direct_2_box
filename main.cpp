@@ -1,14 +1,11 @@
-#include "d2b.h"
+#include "directx.h"
 
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE prev, LPSTR cmdLine, int cmdShow)
 {
-	d2b_setup settings;
-	settings.window_instance = instance;
-	settings.window_name = "Test App";
+	// pass struct into directx class to define information for window instance and directx properties
+	new directx(instance);
 
-	new d2b(&settings);
-
-	engine_pointer->d2b_run();
+	engine_pointer->run();
 
 	return true;
 }
