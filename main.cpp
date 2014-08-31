@@ -6,6 +6,30 @@ LRESULT WINAPI WindowProcedure(HWND window_handler, UINT msg, WPARAM wParam, LPA
 {
 	switch(msg)
 	{
+		case WM_KEYDOWN:
+			input_manage->set_key_down(wParam);
+			return 0;
+		case WM_KEYUP:
+			input_manage->set_key_up(wParam);
+			return 0;
+		case WM_LBUTTONDOWN:
+			input_manage->set_mouse_down(LEFT_MOUSE);
+			return 0;
+		case WM_LBUTTONUP:
+			input_manage->set_mouse_up(LEFT_MOUSE);
+			return 0;
+		case WM_RBUTTONDOWN:
+			input_manage->set_mouse_down(RIGHT_MOUSE);
+			return 0;
+		case WM_RBUTTONUP:
+			input_manage->set_mouse_up(RIGHT_MOUSE);
+			return 0;
+		case WM_MBUTTONDOWN:
+			input_manage->set_mouse_down(MIDDLE_MOUSE);
+			return 0;
+		case WM_MBUTTONUP:
+			input_manage->set_mouse_up(MIDDLE_MOUSE);
+			return 0;
 		case WM_DESTROY:
 		case WM_CLOSE:
 			PostQuitMessage(0);
@@ -55,6 +79,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// }}} END Window Creation
 
 	bool ok = TRUE;
+	input_manage = new input_manager(window_handler);
 	if(!game_engine.initialise(window_handler, FALSE, input_manage))
 	{
 		ok = FALSE;

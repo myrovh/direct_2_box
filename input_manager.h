@@ -1,3 +1,5 @@
+#ifndef INPUT_MANAGER_H
+#define INPUT_MANAGER_H
 #include <Windows.h>
 
 #define LEFT_MOUSE 0
@@ -20,18 +22,23 @@ private:
 
 public:
 	input_manager(HWND window_handle);
-	void set_key_down(UINT keyCode);
-	void set_key_up(UINT keyCode);
-	void get_key_down(UINT keyCode);
-	void get_key_up(UINT keyCode);
+
+	void set_key_down(UINT key_code);
+	void set_key_up(UINT key_code);
+
+	bool get_key_down(UINT key_code);
+	bool get_key_up(UINT key_code);
 
 	void set_mouse_down(int mouse_button);
 	void set_mouse_up(int mouse_button);
-	void get_mouse_down(int mouse_button);
-	void get_mouse_up(int mouse_button);
+
+	bool get_mouse_down(int mouse_button);
+	bool get_mouse_up(int mouse_button);
 	int get_mouse_x();
 	int get_mouse_y();
 
 	void begin_update();
 	void end_update();
 };
+
+#endif

@@ -20,11 +20,17 @@ game::~game()
 		delete direct3d_manage;
 		direct3d_manage = NULL;
 	}
+
+	if(input_manage != NULL)
+	{
+		delete input_manage;
+		input_manage = NULL;
+	}
 }
 
 bool game::initialise(HWND window_handler, bool fullscreen, input_manager* input)
 {
-	input = new input_manager(window_handler);
+	//input = new input_manager(window_handler);
 	input_manage = input;
 
 	direct3d_manage = new direct3d();
@@ -45,12 +51,18 @@ bool game::initialise_content()
 
 void game::update(float timestamp)
 {
+	input_manage->begin_update();
 
+	if(input_manage->get_key_down('E'))
+	{
+		trace("Test Trace: E pressed \n");
+	}
+
+	input_manage->end_update();
 }
 
 void game::render()
 {
-	Sleep(1000);
 }
 
 void game::trace(const char * fmt, ...)
