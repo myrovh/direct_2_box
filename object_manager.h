@@ -1,0 +1,4 @@
+class object_manager
+{
+
+};

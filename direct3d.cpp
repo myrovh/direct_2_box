@@ -1,75 +1,27 @@
-#include "directx.h"
+#include "direct3d.h"
 
-directx* engine_pointer = NULL;
-
-LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+direct3d::direct3d()
 {
-	switch(message)
+	direct3d_device = NULL;
+	direct3d_object = NULL;
+}
+
+direct3d::~direct3d()
+{
+	if(direct3d_device != NULL)
 	{
-		case WM_KEYUP:
-			// If the user presses the escape key then exit the application.
-			if(wParam == VK_ESCAPE)
-				PostQuitMessage(0);
-			break;
-
-		case WM_DESTROY:
-		case WM_CLOSE:
-			PostQuitMessage(0);
-			break;
-
-		default:
-			break;
+		direct3d_device->Release();
+		direct3d_device = NULL;
 	}
 
-	return DefWindowProc(hwnd, message, wParam, lParam);
+	if(direct3d_object != NULL)
+	{
+		direct3d_object->Release();
+		direct3d_object = NULL;
+	}
 }
 
-directx::directx(HINSTANCE instance)
-{
-	window_instance = instance;
-	engine_pointer = this;
-
-	window_created = create_window();
-	directx_created = create_directx();
-}
-
-bool directx::create_window() {
-	// Define our window class.
-	WNDCLASSEX myWindowClass;
-
-	// WNDCLASSEX is an old C-style structure; it has no constructor, so it's a good
-	// idea to set the structure's memory to 0 before poking around in it.
-	memset(&myWindowClass, 0, sizeof(myWindowClass));
-
-	myWindowClass.cbSize = sizeof(WNDCLASSEX); // Magic required by Windows.
-	myWindowClass.style = CS_CLASSDC;
-	// Here, we give the window class a pointer to our window procedure function...
-	myWindowClass.lpfnWndProc = &WndProc;
-	// ...and a handle to our program instance, conveniently passed as an argument to WinMain.
-	myWindowClass.hInstance = window_instance;
-	// Finally, name our class.
-	myWindowClass.lpszClassName = "MyFirstWindowClass";
-
-	// Register the class with Windows so we can use it.
-	RegisterClassEx(&myWindowClass);
-
-	// Now, create a window using our class.
-	window_handler = CreateWindow(
-		"MyFirstWindowClass",		// The class name to use.
-		"My Window Title",
-		WS_OVERLAPPEDWINDOW,		// Tell windows "I want a regular window".
-		100, 100,					// x, y position, in pixels
-		300, 300,					// x, y size, in pixels
-		GetDesktopWindow(),			// Our parent window.
-		NULL,
-		myWindowClass.hInstance,	// Again, our instance handle.
-		NULL
-		);
-
-	return true;
-}
-
-bool directx::create_directx()
+bool direct3d::initialise(HWND window_handler, bool fullscreen)
 {
 	bool valid = false;
 
@@ -161,12 +113,7 @@ bool directx::create_directx()
 	return valid;
 }
 
-void directx::run()
+void direct3d::render()
 {
-	ShowWindow(window_handler, SW_SHOW);
 
-	Sleep(5000);
-
-	DestroyWindow(window_handler);
-	UnregisterClass("MyFirstWindowClass", window_instance);
 }
