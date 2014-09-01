@@ -2,9 +2,9 @@
 
 input_manager* input_manage = NULL;
 
-LRESULT WINAPI WindowProcedure(HWND window_handler, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT WINAPI WindowProcedure(HWND window_handler, UINT message_handle, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg)
+	switch(message_handle)
 	{
 		case WM_KEYDOWN:
 			input_manage->set_key_down(wParam);
@@ -39,12 +39,13 @@ LRESULT WINAPI WindowProcedure(HWND window_handler, UINT msg, WPARAM wParam, LPA
 			break;
 	}
 
-	return DefWindowProc(window_handler, msg, wParam, lParam);
+	return DefWindowProc(window_handler, message_handle, wParam, lParam);
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	game game_engine;
+	MSG message_handle;
 
 	// {{{ START Window Creation
 	WNDCLASSEX window_class;
@@ -97,36 +98,35 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ShowWindow(window_handler, SW_SHOW);
 		UpdateWindow(window_handler);
 
-		// BOOL bRet;
-		MSG msg;
-
 		LARGE_INTEGER frequency;
 		QueryPerformanceCounter(&frequency);
-		LARGE_INTEGER previous_count;
-		QueryPerformanceCounter(&previous_count);
+		LARGE_INTEGER previous_timer_count;
+		QueryPerformanceCounter(&previous_timer_count);
 
 		while(!done)
 		{
-			LARGE_INTEGER current_count;
-			QueryPerformanceCounter(&current_count);
-
-			float timestep = (current_count.QuadPart - previous_count.QuadPart) / (float)frequency.QuadPart;
-
-			if(PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE))
+			if(PeekMessage(&message_handle, NULL, NULL, NULL, PM_REMOVE))
 			{
 				// If a quit message is received then stop rendering and quit the app.
-				if(msg.message == WM_QUIT)
+				if(message_handle.message == WM_QUIT)
 				{
 					done = true;
 				}
 
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
+				TranslateMessage(&message_handle);
+				DispatchMessage(&message_handle);
 			}
 			else
 			{
+				LARGE_INTEGER current_timer_count;
+				QueryPerformanceCounter(&current_timer_count);
+
+				float timestep = (current_timer_count.QuadPart - previous_timer_count.QuadPart) / (float)frequency.QuadPart;
+
 				game_engine.update(timestep);
 				game_engine.render();
+
+				previous_timer_count = current_timer_count;
 			}
 		}
 	}

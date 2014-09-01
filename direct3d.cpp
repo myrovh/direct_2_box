@@ -84,10 +84,32 @@ bool direct3d::initialise(HWND window_handler, bool fullscreen)
 	direct3d_device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	direct3d_device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 
+	// TODO temp camera setup remove to object!
+	D3DXMATRIX View;
+	D3DXVECTOR3 Eye(0.0f, 10.0f, -10.0f);     // Position of view.
+	D3DXVECTOR3 LookAt(0.0f, 0.0f, 0.0f);   // Point view is looking at.
+	D3DXVECTOR3 Up(0.0f, 1.0f, 0.0f);       // Which way is up.
+
+	// Set all the values this matrix will need to know (position, look at point, etc).
+	D3DXMatrixLookAtLH(&View, &Eye, &LookAt, &Up);
+
+	// Move the "view" to the position and values we set above.
+	direct3d_device->SetTransform(D3DTS_VIEW, &View);
+
+	D3DXMATRIX Projection;
+
+	// Set the perspective information.
+	D3DXMatrixPerspectiveFovLH(&Projection, 45.0f, 640 / 480, 0.1f, 500.0f);
+
+	// Set the projection.
+	direct3d_device->SetTransform(D3DTS_PROJECTION, &Projection);
+	// TODO temp camera setup remove to object!
+
 	return TRUE;
 }
 
-void direct3d::render()
+/*
+void direct3d::render(object_manager* object_manage)
 {
 	// Clear the screen to black.
 	direct3d_device->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
@@ -96,6 +118,7 @@ void direct3d::render()
 	// Tell Direct 3D to start drawing.
 	if(SUCCEEDED(direct3d_device->BeginScene()))
 	{
+		object_manage->render();
 
 		// Done drawing for this scene.
 		direct3d_device->EndScene();
@@ -103,3 +126,4 @@ void direct3d::render()
 	// Swap the old frame with the new one.
 	direct3d_device->Present(NULL, NULL, NULL, NULL);
 }
+*/

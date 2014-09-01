@@ -59,11 +59,27 @@ void game::update(float timestamp)
 		trace("Test Trace: E pressed \n");
 	}
 
+	object_manage->update();
+
 	input_manage->end_update();
 }
 
 void game::render()
 {
+	// Clear the screen to black.
+	direct3d_manage->get_device->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
+						D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+
+	// Tell Direct 3D to start drawing.
+	if(SUCCEEDED(direct3d_manage->get_device->BeginScene()))
+	{
+		object_manage->render(direct3d_manage->get_device());
+
+		// Done drawing for this scene.
+		direct3d_manage->get_device->EndScene();
+	}
+	// Swap the old frame with the new one.
+	direct3d_manage->get_device->Present(NULL, NULL, NULL, NULL);
 }
 
 void game::trace(const char * fmt, ...)
