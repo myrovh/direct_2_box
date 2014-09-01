@@ -89,5 +89,17 @@ bool direct3d::initialise(HWND window_handler, bool fullscreen)
 
 void direct3d::render()
 {
+	// Clear the screen to black.
+	direct3d_device->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
+						D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 
+	// Tell Direct 3D to start drawing.
+	if(SUCCEEDED(direct3d_device->BeginScene()))
+	{
+
+		// Done drawing for this scene.
+		direct3d_device->EndScene();
+	}
+	// Swap the old frame with the new one.
+	direct3d_device->Present(NULL, NULL, NULL, NULL);
 }
