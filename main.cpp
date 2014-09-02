@@ -69,7 +69,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	HWND window_handler = CreateWindow(
 		window_class_name,
 		window_class_title,
-		WS_OVERLAPPEDWINDOW,
+		WS_OVERLAPPEDWINDOW | WS_VISIBLE |
+		WS_SYSMENU | WS_CLIPCHILDREN |
+		WS_CLIPSIBLINGS,
 		window_x_location, window_y_location,
 		window_width, window_height,
 		GetDesktopWindow(),
@@ -99,7 +101,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		UpdateWindow(window_handler);
 
 		LARGE_INTEGER frequency;
-		QueryPerformanceCounter(&frequency);
+		QueryPerformanceFrequency(&frequency);
 		LARGE_INTEGER previous_timer_count;
 		QueryPerformanceCounter(&previous_timer_count);
 
@@ -110,7 +112,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// If a quit message is received then stop rendering and quit the app.
 				if(message_handle.message == WM_QUIT)
 				{
-					done = true;
+					done = TRUE;
 				}
 
 				TranslateMessage(&message_handle);
@@ -121,7 +123,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				LARGE_INTEGER current_timer_count;
 				QueryPerformanceCounter(&current_timer_count);
 
-				float timestep = (current_timer_count.QuadPart - previous_timer_count.QuadPart) / (float)frequency.QuadPart;
+				float timestep = (current_timer_count.QuadPart - previous_timer_count.QuadPart) 
+					/ (float)frequency.QuadPart;
 
 				game_engine.update(timestep);
 				game_engine.render();

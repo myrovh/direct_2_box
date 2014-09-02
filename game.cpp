@@ -61,13 +61,14 @@ bool game::initialise_content()
 {
 	camera = new camera_fixed(D3DXVECTOR3(0, 5, -5), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 1, 0),
 							  D3DX_PI / 2, 640 / (float)480, 0.1f, 12.0f);
+
 	if(!mesh_manage->load(direct3d_manage->get_device(), "Die.x"))
 	{
 		return FALSE;
 	}
 
 	object_queue.push_back(new die(mesh_manage->get_mesh("Die.x"), D3DXVECTOR3(0, 0, 0),
-		0, 0, 0, 1.0f, 7.5f));
+		0, 0, 0, 1.0f, 7.0f));
 
 	return TRUE;
 }
@@ -76,9 +77,9 @@ void game::update(float timestamp)
 {
 	input_manage->begin_update();
 
-	if(input_manage->get_key_down('E'))
+	if(input_manage->get_key_down(VK_ESCAPE))
 	{
-		trace("Test Trace: E pressed \n");
+		trace("Test Trace: esc pressed \n");
 	}
 
 	for(unsigned int i = 0; i < object_queue.size(); i++)
