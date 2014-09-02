@@ -2,7 +2,8 @@
 #define DIRECT3D_H
 
 #include <d3dx9.h>
-#include "object_manager.h"
+#include <vector>
+#include "object.h"
 
 class direct3d
 {
@@ -15,8 +16,9 @@ public:
 	~direct3d();
 
 	bool initialise(HWND window_instance, bool fullscreen);
-	//void render(object_manager* object_manage);
 	LPDIRECT3DDEVICE9 get_device() { return direct3d_device; }
+	void render(std::vector<object*> object_queue);
+	void release();
 };
 
 #endif

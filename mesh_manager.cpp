@@ -31,7 +31,7 @@ bool mesh_manager::load(LPDIRECT3DDEVICE9 device, const char* filename)
 		std::string filename_string = filename;
 		mesh_queue[filename_string] = temp_mesh;
 		temp_mesh = NULL;
-		return FALSE;
+		return TRUE;
 	}
 	else
 	{

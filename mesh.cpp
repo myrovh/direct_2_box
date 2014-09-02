@@ -14,7 +14,7 @@ mesh::mesh()
 
 bool mesh::load(LPDIRECT3DDEVICE9 device, const char* filename, texture_manager* texture_manage)
 {
-	if(FAILED(D3DXLoadMeshFromX(filename, D3DXMESH_VB_SHARE, device, NULL, &material_buffer, NULL, &number_of_materials, &mesh_storage)))
+	if(FAILED(D3DXLoadMeshFromX(filename, D3DXMESH_SYSTEMMEM, device, NULL, &material_buffer, NULL, &number_of_materials, &mesh_storage)))
 	{
 		return FALSE;
 	}

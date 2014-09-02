@@ -2,6 +2,7 @@
 #define MESH_MANAGER_H
 #include <map>
 #include <string>
+#include <d3dx9.h>
 #include "mesh.h"
 
 class mesh_manager

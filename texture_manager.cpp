@@ -15,7 +15,7 @@ bool texture_manager::load(LPDIRECT3DDEVICE9 device, const char* filename)
 {
 	texture* temp_texture = NULL;
 
-	if(filename = 0)
+	if(filename == 0)
 	{
 		return FALSE;
 	}

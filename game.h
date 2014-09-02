@@ -3,17 +3,23 @@
 #define _CRT_SECURE_NO_DEPRECATE
 
 #include "input_manager.h"
-#include "object_manager.h"
+#include "texture_manager.h"
+#include "mesh_manager.h"
+#include "object.h"
 #include "direct3d.h"
+#include "die.h"
 #include <windows.h>
 #include <stdio.h> //vsprintf
+#include <vector>
 
 class game
 {
 private:
 	direct3d* direct3d_manage;
-	object_manager* object_manage;
 	input_manager* input_manage;
+	texture_manager* texture_manage;
+	mesh_manager* mesh_manage;
+	std::vector<object*> object_queue;
 
 public:
 	game();

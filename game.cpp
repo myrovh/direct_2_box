@@ -3,22 +3,29 @@
 game::game()
 {
 	direct3d* direct3d_manage = NULL;
-	object_manager* object_manage = NULL;
+	texture_manager* texture_manage = NULL;
+	mesh_manager* mesh_manage = NULL;
 	input_manager* input_manage = NULL;
 }
 
 game::~game()
 {
-	if(object_manage != NULL)
-	{
-		delete object_manage;
-		object_manage = NULL;
-	}
-
 	if(direct3d_manage != NULL)
 	{
 		delete direct3d_manage;
 		direct3d_manage = NULL;
+	}
+
+	if(texture_manage != NULL)
+	{
+		delete texture_manage;
+		texture_manage = NULL;
+	}
+
+	if(mesh_manage != NULL)
+	{
+		delete mesh_manage;
+		mesh_manage = NULL;
 	}
 
 	if(input_manage != NULL)
@@ -39,14 +46,22 @@ bool game::initialise(HWND window_handler, bool fullscreen, input_manager* input
 		return FALSE;
 	}
 
-	object_manage = new object_manager();
+	texture_manage = new texture_manager();
+	mesh_manage = new mesh_manager(texture_manage);
 
 	return TRUE;
 }
 
 bool game::initialise_content()
 {
-		0, 0, 0, 1.0f, 7.5f));
+	if(!mesh_manage->load(direct3d_manage->get_device(), "Die.x"))
+	{
+		return FALSE;
+	}
+
+	object_queue.push_back(new die(mesh_manage->get_mesh("Die.x"), D3DXVECTOR3(0, 0, 0),
+		0, 0, 0.5f, 1.0f, 7.5f));
+
 	return TRUE;
 }
 
@@ -59,27 +74,17 @@ void game::update(float timestamp)
 		trace("Test Trace: E pressed \n");
 	}
 
-	object_manage->update();
+	for(int i = 0; i < object_queue.size(); i++)
+	{
+		object_queue[i]->update(timestamp);
+	}
 
 	input_manage->end_update();
 }
 
 void game::render()
 {
-	// Clear the screen to black.
-	direct3d_manage->get_device->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-						D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
-
-	// Tell Direct 3D to start drawing.
-	if(SUCCEEDED(direct3d_manage->get_device->BeginScene()))
-	{
-		object_manage->render(direct3d_manage->get_device());
-
-		// Done drawing for this scene.
-		direct3d_manage->get_device->EndScene();
-	}
-	// Swap the old frame with the new one.
-	direct3d_manage->get_device->Present(NULL, NULL, NULL, NULL);
+	direct3d_manage->render(object_queue);
 }
 
 void game::trace(const char * fmt, ...)

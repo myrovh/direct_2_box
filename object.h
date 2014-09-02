@@ -1,34 +1,31 @@
-#ifndef OBJECT_H
-#define OBJECT_H
+#ifndef ENTITY_H
+#define ENTITY_H
+
+#include <d3dx9.h>
+#include "mesh_manager.h"
 
 class object
 {
-private:
-	int reference_count;
-	const char* filename;
-
 protected:
-	object();
-	virtual ~object();
-	void add_reference() {
-		reference_count++;
-	}
-	void remove_reference() {
-		reference_count--;
-	}
-	int get_reference_count(){
-		return reference_count;
-	}
+	D3DXVECTOR3 positon;
+	mesh* entity_mesh;
+	float x_rotation;
+	float y_rotation;
+	float z_rotation;
+	float scale_factor;
 
 public:
-	const char* get_filename() {
-		return filename;
-	}
+	object();
+	object(mesh* model, D3DXVECTOR3 position, float x_rotation, float y_rotation,
+		   float z_rotation, float scale_factor);
+	virtual ~object();
+	void release(mesh_manager* mesh_manage);
 
-	virtual void release() = 0;
-	virtual void render() = 0;
-
-	friend class object_manager;
+	virtual void update(float timestep) = 0;
+	virtual void render(LPDIRECT3DDEVICE9 device);
 };
 
+// Create the bounding box inside here
+// using two points dynamically generated or a bounding sphere using centre point and a radius
+// x, y, z min and max for bounding box
 #endif

@@ -8,17 +8,7 @@ direct3d::direct3d()
 
 direct3d::~direct3d()
 {
-	if(direct3d_device != NULL)
-	{
-		direct3d_device->Release();
-		direct3d_device = NULL;
-	}
-
-	if(direct3d_object != NULL)
-	{
-		direct3d_object->Release();
-		direct3d_object = NULL;
-	}
+	release();
 }
 
 bool direct3d::initialise(HWND window_handler, bool fullscreen)
@@ -108,8 +98,7 @@ bool direct3d::initialise(HWND window_handler, bool fullscreen)
 	return TRUE;
 }
 
-/*
-void direct3d::render(object_manager* object_manage)
+void direct3d::render(std::vector<object*> object_queue)
 {
 	// Clear the screen to black.
 	direct3d_device->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
@@ -118,12 +107,27 @@ void direct3d::render(object_manager* object_manage)
 	// Tell Direct 3D to start drawing.
 	if(SUCCEEDED(direct3d_device->BeginScene()))
 	{
-		object_manage->render();
-
-		// Done drawing for this scene.
+		for(int i = 0; i < object_queue.size(); i++)
+		{
+			object_queue[i]->render(direct3d_device);
+		}
 		direct3d_device->EndScene();
 	}
 	// Swap the old frame with the new one.
 	direct3d_device->Present(NULL, NULL, NULL, NULL);
 }
-*/
+
+void direct3d::release()
+{
+	if(direct3d_device)
+	{
+		direct3d_device->Release();
+		direct3d_device = NULL;
+	}
+
+	if(direct3d_object)
+	{
+		direct3d_object->Release();
+		direct3d_object = NULL;
+	}
+}
