@@ -79,7 +79,7 @@ void game::update(float timestamp)
 
 	if(input_manage->get_key_down(VK_ESCAPE))
 	{
-		trace("Test Trace: esc pressed \n");
+		PostQuitMessage(0);
 	}
 
 	for(unsigned int i = 0; i < object_queue.size(); i++)
