@@ -46,6 +46,7 @@ bool game::initialise(HWND window_handler, bool fullscreen, input_manager* input
 
 bool game::initialise_content()
 {
+		0, 0, 0, 1.0f, 7.5f));
 	return TRUE;
 }
 
