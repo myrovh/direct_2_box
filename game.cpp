@@ -10,16 +10,15 @@ game::game()
 
 game::~game()
 {
+	for(unsigned int i = 0; i < object_queue.size(); i++)
+	{
+		object_queue[i]->release(mesh_manage);
+	}
+
 	if(direct3d_manage != NULL)
 	{
 		delete direct3d_manage;
 		direct3d_manage = NULL;
-	}
-
-	if(texture_manage != NULL)
-	{
-		delete texture_manage;
-		texture_manage = NULL;
 	}
 
 	if(mesh_manage != NULL)
@@ -28,15 +27,16 @@ game::~game()
 		mesh_manage = NULL;
 	}
 
+	if(texture_manage != NULL)
+	{
+		delete texture_manage;
+		texture_manage = NULL;
+	}
+
 	if(input_manage != NULL)
 	{
 		delete input_manage;
 		input_manage = NULL;
-	}
-
-	for(unsigned int i = 0; i < object_queue.size(); i++)
-	{
-		object_queue[i]->release(mesh_manage);
 	}
 }
 
