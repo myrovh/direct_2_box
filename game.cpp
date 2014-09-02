@@ -33,6 +33,11 @@ game::~game()
 		delete input_manage;
 		input_manage = NULL;
 	}
+
+	for(unsigned int i = 0; i < object_queue.size(); i++)
+	{
+		object_queue[i]->release(mesh_manage);
+	}
 }
 
 bool game::initialise(HWND window_handler, bool fullscreen, input_manager* input)
@@ -54,13 +59,15 @@ bool game::initialise(HWND window_handler, bool fullscreen, input_manager* input
 
 bool game::initialise_content()
 {
+	camera = new camera_fixed(D3DXVECTOR3(0, 5, -5), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 1, 0),
+							  D3DX_PI / 2, 640 / (float)480, 0.1f, 12.0f);
 	if(!mesh_manage->load(direct3d_manage->get_device(), "Die.x"))
 	{
 		return FALSE;
 	}
 
 	object_queue.push_back(new die(mesh_manage->get_mesh("Die.x"), D3DXVECTOR3(0, 0, 0),
-		0, 0, 0.5f, 1.0f, 7.5f));
+		0, 0, 0, 1.0f, 7.5f));
 
 	return TRUE;
 }
@@ -74,7 +81,7 @@ void game::update(float timestamp)
 		trace("Test Trace: E pressed \n");
 	}
 
-	for(int i = 0; i < object_queue.size(); i++)
+	for(unsigned int i = 0; i < object_queue.size(); i++)
 	{
 		object_queue[i]->update(timestamp);
 	}
@@ -84,7 +91,7 @@ void game::update(float timestamp)
 
 void game::render()
 {
-	direct3d_manage->render(object_queue);
+	direct3d_manage->render(object_queue, camera);
 }
 
 void game::trace(const char * fmt, ...)

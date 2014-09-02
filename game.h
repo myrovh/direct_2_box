@@ -8,6 +8,7 @@
 #include "object.h"
 #include "direct3d.h"
 #include "die.h"
+#include "camera_fixed.h"
 #include <windows.h>
 #include <stdio.h> //vsprintf
 #include <vector>
@@ -19,6 +20,7 @@ private:
 	input_manager* input_manage;
 	texture_manager* texture_manage;
 	mesh_manager* mesh_manage;
+	camera_fixed* camera;
 	std::vector<object*> object_queue;
 
 public:

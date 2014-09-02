@@ -53,8 +53,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	char window_class_title[] = "Test Engine";
 	int window_x_location = 100;
 	int window_y_location = 100;
-	int window_width = 800;
-	int window_height = 600;
+	int window_width = 640;
+	int window_height = 480;
 	bool done = FALSE;
 	memset(&window_class, 0, sizeof(window_class));
 
@@ -71,7 +71,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		window_class_title,
 		WS_OVERLAPPEDWINDOW,
 		window_x_location, window_y_location,
-		window_height, window_width,
+		window_width, window_height,
 		GetDesktopWindow(),
 		NULL,
 		window_class.hInstance,

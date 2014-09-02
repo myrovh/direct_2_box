@@ -4,6 +4,7 @@
 #include <d3dx9.h>
 #include <vector>
 #include "object.h"
+#include "camera_fixed.h"
 
 class direct3d
 {
@@ -17,7 +18,7 @@ public:
 
 	bool initialise(HWND window_instance, bool fullscreen);
 	LPDIRECT3DDEVICE9 get_device() { return direct3d_device; }
-	void render(std::vector<object*> object_queue);
+	void render(std::vector<object*> object_queue, camera_fixed* camera);
 	void release();
 };
 
