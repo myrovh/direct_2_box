@@ -61,8 +61,10 @@ bool game::initialise(HWND window_handler, bool fullscreen, input_manager* input
 
 bool game::initialise_content()
 {
+	// START Camera Initialise
 	camera = new camera_fixed(D3DXVECTOR3(18, 10, 10), D3DXVECTOR3(0, 0, 10), D3DXVECTOR3(0, 1, 0),
 							  D3DX_PI / 2, 640 / (float)480, 0.1f, 60.0f);
+	// END Camera Initialise
 
 	// START Init five dice in starting positions
 	if(!mesh_manage->load(direct3d_manage->get_device(), "Die.x"))
@@ -82,6 +84,14 @@ bool game::initialise_content()
 	object_queue.push_back(new die(mesh_manage->get_mesh("Die.x"), D3DXVECTOR3(12, 0, 0),
 		0, 0, 0, 1.0f, 7.0f));
 	// END Init five dice in starting positions
+
+
+	RECT test_position;
+	test_position.bottom = 50;
+	test_position.top = 0;
+	test_position.left = 0;
+	test_position.right = 50;
+	font_queue.push_back(new font_rectangle(test_position, DT_CENTER, D3DCOLOR_ARGB(255, 255, 255, 255)));
 
 	return TRUE;
 }
@@ -105,12 +115,14 @@ void game::update(float timestamp)
 		object_queue[i]->update(timestamp);
 	}
 
+	font_queue[0]->update("TEST", 4);
+
 	input_manage->end_update();
 }
 
 void game::render()
 {
-	direct3d_manage->render(object_queue, camera);
+	direct3d_manage->render(object_queue, font_queue, camera);
 }
 
 void game::trace(const char * fmt, ...)

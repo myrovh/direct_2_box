@@ -4,6 +4,7 @@ direct3d::direct3d()
 {
 	direct3d_device = NULL;
 	direct3d_object = NULL;
+	direct3d_font = NULL;
 }
 
 direct3d::~direct3d()
@@ -74,10 +75,30 @@ bool direct3d::initialise(HWND window_handler, bool fullscreen)
 	direct3d_device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	direct3d_device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 
+
+	if(FAILED(D3DXCreateFont(
+		direct3d_device,
+		24,
+		0,
+		0,
+		1,
+		0,
+		DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS,
+		DEFAULT_QUALITY,
+		DEFAULT_PITCH | FF_DONTCARE,
+		"Arial",
+		&direct3d_font
+		)))
+	{
+		return false;
+	}
+
 	return TRUE;
 }
 
-void direct3d::render(std::vector<object*> object_queue, camera_fixed* camera)
+void direct3d::render(std::vector<object*> object_queue, 
+					  std::vector<font_rectangle*> font_queue, camera_fixed* camera)
 {
 	direct3d_device->SetTransform(D3DTS_VIEW, &camera->get_view());
 	direct3d_device->SetTransform(D3DTS_PROJECTION, &camera->get_projection());
@@ -93,6 +114,12 @@ void direct3d::render(std::vector<object*> object_queue, camera_fixed* camera)
 		{
 			object_queue[i]->render(direct3d_device);
 		}
+
+		for(int i = 0; i < font_queue.size(); i++)
+		{
+			font_queue[i]->render(direct3d_font);
+		}
+
 		direct3d_device->EndScene();
 	}
 	// Swap the old frame with the new one.

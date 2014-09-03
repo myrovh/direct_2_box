@@ -9,11 +9,13 @@
 #include "direct3d.h"
 #include "die.h"
 #include "camera_fixed.h"
+#include "font_rectangle.h"
 #include <windows.h>
 #include <stdio.h> //vsprintf
-#include <vector>
+#include <vector> //object_queue
 #include <stdlib.h> //srand + rand
 #include <time.h> //random seed
+#include <sstream> //font insertion
 
 class game
 {
@@ -24,6 +26,7 @@ private:
 	mesh_manager* mesh_manage;
 	camera_fixed* camera;
 	std::vector<object*> object_queue;
+	std::vector<font_rectangle*> font_queue;
 
 public:
 	game();
