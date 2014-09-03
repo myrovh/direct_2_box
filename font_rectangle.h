@@ -1,13 +1,13 @@
 #ifndef FONT_H
 #define FONT_H
 #include <d3dx9.h>
+#include <string>
 
 class font_rectangle
 {
 private:
 	RECT positon;
-	char* text;
-	int text_length;
+	std::string text;
 	DWORD font_format;
 	D3DCOLOR colour;
 
@@ -17,7 +17,7 @@ public:
 	~font_rectangle() {}
 
 
-	void update(char* text, int text_length);
+	void update(std::string);
 	void render(LPD3DXFONT font);
 };
 
