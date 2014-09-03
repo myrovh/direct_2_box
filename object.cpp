@@ -7,6 +7,7 @@ object::object()
 	y_rotation = 0.0f;
 	z_rotation = 0.0f;
 	scale_factor = 1.0f;
+	entity_type = NONE;
 }
 object::object(mesh* model, D3DXVECTOR3 position, float x_rotation, float y_rotation,
 			   float z_rotation, float scale_factor)

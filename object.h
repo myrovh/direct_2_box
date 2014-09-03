@@ -4,6 +4,8 @@
 #include <d3dx9.h>
 #include "mesh_manager.h"
 
+enum object_type {NONE, DIE};
+
 class object
 {
 protected:
@@ -13,6 +15,7 @@ protected:
 	float y_rotation;
 	float z_rotation;
 	float scale_factor;
+	object_type entity_type;
 
 public:
 	object();
@@ -20,6 +23,8 @@ public:
 		   float z_rotation, float scale_factor);
 	virtual ~object();
 	void release(mesh_manager* mesh_manage);
+
+	virtual object_type get_object_type() {return entity_type;}
 
 	virtual void update(float timestep) = 0;
 	virtual void render(LPDIRECT3DDEVICE9 device);
