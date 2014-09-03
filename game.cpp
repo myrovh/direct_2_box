@@ -6,6 +6,8 @@ game::game()
 	texture_manager* texture_manage = NULL;
 	mesh_manager* mesh_manage = NULL;
 	input_manager* input_manage = NULL;
+
+	srand(time(NULL));
 }
 
 game::~game()
@@ -93,6 +95,11 @@ void game::update(float timestamp)
 		PostQuitMessage(0);
 	}
 
+	if(input_manage->get_key_down('R'))
+	{
+		roll_dice();
+	}
+
 	for(unsigned int i = 0; i < object_queue.size(); i++)
 	{
 		object_queue[i]->update(timestamp);
@@ -115,4 +122,20 @@ void game::trace(const char * fmt, ...)
 	vsprintf(buffer, fmt, args);
 
 	OutputDebugString(buffer);
+}
+
+void game::roll_dice()
+{
+	for(unsigned int i = 0; i < object_queue.size(); i++)
+	{
+		if(object_queue[i]->get_object_type() == DIE)
+		{
+			die* temp_pointer = (die*)object_queue[i];
+			if(temp_pointer->get_locked() == FALSE)
+			{
+				int face_value = rand() % 6 + 1;
+				temp_pointer->set_face_value(face_value);
+			}
+		}
+	}
 }

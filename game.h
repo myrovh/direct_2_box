@@ -12,6 +12,8 @@
 #include <windows.h>
 #include <stdio.h> //vsprintf
 #include <vector>
+#include <stdlib.h> //srand + rand
+#include <time.h> //random seed
 
 class game
 {
@@ -32,6 +34,8 @@ public:
 	void update(float timestep);
 	void render();
 	void trace(const char * fmt, ...);
+
+	void roll_dice();
 };
 
 #endif
