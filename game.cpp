@@ -125,7 +125,7 @@ bool game::initialise_content()
 	title_position.left = 0;
 	title_position.right = 80;
 	font_queue.push_back(new font_rectangle(title_position, DT_LEFT | DT_NOCLIP | DT_VCENTER, 
-		D3DCOLOR_ARGB(255, 255, 255, 255)));
+		D3DCOLOR_ARGB(255, 255, 255, 255), TRUE));
 	// END Font Rectangle for Title Display
 
 	return TRUE;
@@ -148,6 +148,11 @@ void game::update(float timestamp)
 	if(input_manage->get_key_down('R'))
 	{
 		roll_dice();
+	}
+
+	if(input_manage->get_key_down('H'))
+	{
+		font_queue[0]->toggle_visibility();
 	}
 
 	for(unsigned int i = 0; i < object_queue.size(); i++)

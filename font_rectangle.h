@@ -10,13 +10,15 @@ private:
 	std::string text;
 	DWORD font_format;
 	D3DCOLOR colour;
+	bool show;
 
 public:
 	font_rectangle();
-	font_rectangle(RECT positiont, DWORD font_format, D3DCOLOR colour);
+	font_rectangle(RECT positiont, DWORD font_format, D3DCOLOR colour, bool show);
 	~font_rectangle() {}
 
 
+	void toggle_visibility();
 	void update(std::string);
 	void render(LPD3DXFONT font);
 };
