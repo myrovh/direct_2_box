@@ -17,6 +17,43 @@
 #include <time.h> //random seed
 #include <sstream> //font insertion
 
+struct yahtzee_game
+{
+	// START State Settings
+	bool is_game_over;
+	bool is_score_for_round_set;
+	int round_count;
+	int rolls_remaining;
+	int max_rolls;
+	// END State Settings
+
+	// START upper section
+	int bonus_threshold;
+	int bonus_value;
+
+	int ones_score;
+	int twos_score;
+	int threes_score;
+	int fours_score;
+	int fives_score;
+	int sixes_score;
+	// END upper section
+
+	// START lower section
+	int full_house_value;
+	int small_straight_value;
+	int large_straight_value;
+	int yahtzee_value;
+
+	int three_of_a_kind_score;
+	int four_of_a_kind_score;
+	int full_house_score;
+	int small_straight_score;
+	int large_straight_score;
+	int yahtzee_score;
+	// END lower section
+};
+
 class game
 {
 private:
@@ -27,6 +64,7 @@ private:
 	camera_fixed* camera;
 	std::vector<object*> object_queue;
 	std::vector<font_rectangle*> font_queue;
+	yahtzee_game game_variables;
 
 public:
 	game();
