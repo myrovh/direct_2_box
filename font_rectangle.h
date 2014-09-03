@@ -17,8 +17,10 @@ public:
 	font_rectangle(RECT positiont, DWORD font_format, D3DCOLOR colour, bool show);
 	~font_rectangle() {}
 
-
 	void toggle_visibility();
+	void set_visible() { show = TRUE; }
+	void set_invisible() { show = FALSE; }
+
 	void update(std::string);
 	void render(LPD3DXFONT font);
 };

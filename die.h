@@ -17,6 +17,8 @@ public:
 
 	void set_face_value(int face_value);
 	void toggle_locked();
+	void set_locked() { locked = TRUE; }
+	void set_unlocked() { locked = FALSE; }
 
 	bool get_locked() {return locked;}
 	int get_face_value() {return face_value;}
