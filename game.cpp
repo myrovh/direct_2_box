@@ -59,16 +59,27 @@ bool game::initialise(HWND window_handler, bool fullscreen, input_manager* input
 
 bool game::initialise_content()
 {
-	camera = new camera_fixed(D3DXVECTOR3(0, 5, -5), D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 1, 0),
-							  D3DX_PI / 2, 640 / (float)480, 0.1f, 12.0f);
+	camera = new camera_fixed(D3DXVECTOR3(18, 10, 10), D3DXVECTOR3(0, 0, 10), D3DXVECTOR3(0, 1, 0),
+							  D3DX_PI / 2, 640 / (float)480, 0.1f, 60.0f);
 
+	// START Init five dice in starting positions
 	if(!mesh_manage->load(direct3d_manage->get_device(), "Die.x"))
 	{
 		return FALSE;
 	}
 
+	// TODO worth changing object constructor to use a struct instead of multiple values
+	object_queue.push_back(new die(mesh_manage->get_mesh("Die.x"), D3DXVECTOR3(-12, 0, 0),
+		0, 0, 0, 1.0f, 7.0f));
+	object_queue.push_back(new die(mesh_manage->get_mesh("Die.x"), D3DXVECTOR3(-6, 0, 0),
+		0, 0, 0, 1.0f, 7.0f));
 	object_queue.push_back(new die(mesh_manage->get_mesh("Die.x"), D3DXVECTOR3(0, 0, 0),
 		0, 0, 0, 1.0f, 7.0f));
+	object_queue.push_back(new die(mesh_manage->get_mesh("Die.x"), D3DXVECTOR3(6, 0, 0),
+		0, 0, 0, 1.0f, 7.0f));
+	object_queue.push_back(new die(mesh_manage->get_mesh("Die.x"), D3DXVECTOR3(12, 0, 0),
+		0, 0, 0, 1.0f, 7.0f));
+	// END Init five dice in starting positions
 
 	return TRUE;
 }
