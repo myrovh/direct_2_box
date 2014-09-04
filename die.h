@@ -8,7 +8,14 @@ class die :
 private:
 	float spin_speed;
 	bool locked;
+	bool thrown;
 	int face_value;
+	D3DXVECTOR3 throw_direction;
+	D3DXVECTOR3 starting_location;
+	D3DXVECTOR3 gravity;
+	float gravity_force;
+	float throw_force;
+	float throw_entropy;
 
 public:
 	die(mesh* model, D3DXVECTOR3 position, float x_rotation, float y_rotation,
@@ -19,6 +26,8 @@ public:
 	void toggle_locked();
 	void set_locked() { locked = TRUE; }
 	void set_unlocked() { locked = FALSE; }
+	void set_throw(D3DXVECTOR3 throw_direction, 
+				   float gravity_force, float throw_force, float throw_entropy);
 
 	bool get_locked() {return locked;}
 	int get_face_value() {return face_value;}

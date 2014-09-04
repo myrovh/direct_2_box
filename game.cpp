@@ -62,8 +62,10 @@ bool game::initialise(HWND window_handler, bool fullscreen, input_manager* input
 bool game::initialise_content()
 {
 	// START Camera Initialise
-	camera = new camera_fixed(D3DXVECTOR3(18, 10, 10), D3DXVECTOR3(0, 0, 10), D3DXVECTOR3(0, 1, 0),
-							  D3DX_PI / 2, 640 / (float)480, 0.1f, 60.0f);
+	//camera = new camera_fixed(D3DXVECTOR3(18, 10, 10), D3DXVECTOR3(0, 0, 10), D3DXVECTOR3(0, 1, 0),
+	//						  D3DX_PI / 2, 640 / (float)480, 0.1f, 60.0f);
+	camera = new camera_fixed(D3DXVECTOR3(20, 50, 10), D3DXVECTOR3(0, 0, 10), D3DXVECTOR3(0, 1, 0),
+							  D3DX_PI / 2, 640 / (float)480, 0.1f, 200.0f);
 	// END Camera Initialise
 
 	// START Init five dice in starting positions
@@ -84,6 +86,14 @@ bool game::initialise_content()
 	object_queue.push_back(new die(mesh_manage->get_mesh("Die.x"), D3DXVECTOR3(12, 0, 0),
 		0, 0, 0, 1.0f, 1.0f));
 	// END Init five dice in starting positions
+
+	//START Physics Settings
+	game_variables.throw_variance_floor = -1;
+	game_variables.throw_variance_ceiling = 1;
+	game_variables.throw_force = 50.0f;
+	game_variables.throw_entropy = 30.0f;
+	game_variables.gravity_force = 20.0f;
+	//END Physics Settings
 
 	// START Game settings
 	// TODO these really should be const
@@ -120,7 +130,7 @@ bool game::initialise_content()
 	// START Font Rectangle for Title Display
 	// TODO build a struct to insert values into constructor
 	RECT title_position;
-	title_position.bottom = 30;
+	title_position.bottom = 50;
 	title_position.top = 0;
 	title_position.left = 0;
 	title_position.right = 80;
@@ -135,7 +145,8 @@ void game::update(float timestamp)
 {
 	// font_queue[0] = Game Title
 	std::stringstream game_title;
-	game_title << " Yahtzee Round: " << game_variables.round_count;
+	game_title << " Yahtzee Round: " << game_variables.round_count
+		<< "\n Rolls Left: " << game_variables.rolls_remaining;
 	font_queue[0]->update(game_title.str());
 
 	input_manage->begin_update();
@@ -147,8 +158,61 @@ void game::update(float timestamp)
 
 	if(input_manage->get_key_down('R'))
 	{
-		roll_dice();
+		if(game_variables.rolls_remaining > 0)
+		{
+			roll_dice();
+		}
 	}
+
+	// TODO this is a bad solution
+	// might be worth implementing a map for storage or some way 
+	// to retrieve the object I want by name not queue location
+	if(game_variables.rolls_remaining < game_variables.max_rolls)
+	{
+		if(input_manage->get_key_down('1'))
+		{
+			die* temp_pointer = (die*)object_queue[0];
+			temp_pointer->set_locked();
+		}
+		if(input_manage->get_key_down('2'))
+		{
+			die* temp_pointer = (die*)object_queue[1];
+			temp_pointer->set_locked();
+		}
+		if(input_manage->get_key_down('3'))
+		{
+			die* temp_pointer = (die*)object_queue[2];
+			temp_pointer->set_locked();
+		}
+		if(input_manage->get_key_down('4'))
+		{
+			die* temp_pointer = (die*)object_queue[3];
+			temp_pointer->set_locked();
+		}
+		if(input_manage->get_key_down('5'))
+		{
+			die* temp_pointer = (die*)object_queue[4];
+			temp_pointer->set_locked();
+		}
+	}
+
+	//TODO lock all dice when thrown has finished and there are no more rolls
+	/*
+	if(game_variables.rolls_remaining <= 0)
+	{
+		for(unsigned int i = 0; i < object_queue.size(); i++)
+		{
+			if(object_queue[i]->get_object_type() == DIE)
+			{
+				die* temp_pointer = (die*)object_queue[i];
+				if(temp_pointer->get_locked() == FALSE)
+				{
+					temp_pointer->set_locked();
+				}
+			}
+		}
+	}
+	*/
 
 	if(input_manage->get_key_down('H'))
 	{
@@ -190,9 +254,31 @@ void game::roll_dice()
 			die* temp_pointer = (die*)object_queue[i];
 			if(temp_pointer->get_locked() == FALSE)
 			{
+				// START assign die face values
 				int face_value = rand() % 6 + 1;
 				temp_pointer->set_face_value(face_value);
+				// END assign die face values
+
+				//START create animation
+				D3DXVECTOR3 throw_direction;
+				throw_direction.x = 0;
+				throw_direction.y = 1;
+				throw_direction.z = 0;
+				throw_direction.x += game_variables.throw_variance_floor + static_cast <float> (rand()) / 
+					(static_cast <float> (RAND_MAX / (game_variables.throw_variance_ceiling - game_variables.throw_variance_floor)));
+				//throw_direction.y += static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+				throw_direction.z += game_variables.throw_variance_floor + static_cast <float> (rand()) /
+					(static_cast <float> (RAND_MAX/(game_variables.throw_variance_ceiling-game_variables.throw_variance_floor)));
+				std::stringstream ss;
+				ss << throw_direction.x << "\n";
+				trace(ss.str().c_str());
+				//TODO add check to run through all dice to ensure that they all get
+				temp_pointer->set_throw(throw_direction, game_variables.gravity_force,
+										game_variables.throw_force, game_variables.throw_entropy);
+				//END create animation
+
 			}
 		}
 	}
+	game_variables.rolls_remaining--;
 }

@@ -27,6 +27,14 @@ struct yahtzee_game
 	int max_rolls;
 	// END State Settings
 
+	//START Physics Settings
+	int throw_variance_floor;
+	int throw_variance_ceiling;
+	float throw_entropy;
+	float throw_force;
+	float gravity_force;
+	//END Physics Settings
+
 	// START upper section
 	int bonus_threshold;
 	int bonus_value;
