@@ -7,8 +7,7 @@ game::game()
 	mesh_manager* mesh_manage = NULL;
 	input_manager* input_manage = NULL;
 	yahtzee_game game_variables; //Not quite sure on how to be instantiating structs
-
-	srand(time(NULL));
+	std::mt19937 rng_engine(rng_device());
 }
 
 game::~game()
@@ -93,6 +92,9 @@ bool game::initialise_content()
 	game_variables.throw_force = 50.0f;
 	game_variables.throw_entropy = 30.0f;
 	game_variables.gravity_force = 20.0f;
+	game_variables.throw_direction.x = 0;
+	game_variables.throw_direction.y = 1;
+	game_variables.throw_direction.z = 0;
 	//END Physics Settings
 
 	// START Game settings
@@ -260,25 +262,17 @@ void game::roll_dice()
 				// END assign die face values
 
 				//START create animation
-				D3DXVECTOR3 throw_direction;
-				throw_direction.x = 0;
-				throw_direction.y = 1;
-				throw_direction.z = 0;
-				throw_direction.x += game_variables.throw_variance_floor + static_cast <float> (rand()) / 
-					(static_cast <float> (RAND_MAX / (game_variables.throw_variance_ceiling - game_variables.throw_variance_floor)));
-				//throw_direction.y += static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-				throw_direction.z += game_variables.throw_variance_floor + static_cast <float> (rand()) /
-					(static_cast <float> (RAND_MAX/(game_variables.throw_variance_ceiling-game_variables.throw_variance_floor)));
-				std::stringstream ss;
-				ss << throw_direction.x << "\n";
-				trace(ss.str().c_str());
+				std::uniform_real_distribution<> variance(game_variables.throw_variance_floor, 
+														  game_variables.throw_variance_ceiling);
+				game_variables.throw_direction.x = variance(rng_engine);
+				game_variables.throw_direction.z = variance(rng_engine);
 				//TODO add check to run through all dice to ensure that they all get
-				temp_pointer->set_throw(throw_direction, game_variables.gravity_force,
+				temp_pointer->set_throw(game_variables.throw_direction, game_variables.gravity_force,
 										game_variables.throw_force, game_variables.throw_entropy);
 				//END create animation
 
 			}
 		}
 	}
-	game_variables.rolls_remaining--;
+	//game_variables.rolls_remaining--;
 }

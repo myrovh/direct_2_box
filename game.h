@@ -13,9 +13,8 @@
 #include <windows.h>
 #include <stdio.h> //vsprintf
 #include <vector> //object_queue
-#include <stdlib.h> //srand + rand
-#include <time.h> //random seed
 #include <sstream> //font insertion
+#include <random>
 
 struct yahtzee_game
 {
@@ -33,6 +32,7 @@ struct yahtzee_game
 	float throw_entropy;
 	float throw_force;
 	float gravity_force;
+	D3DXVECTOR3 throw_direction;
 	//END Physics Settings
 
 	// START upper section
@@ -72,6 +72,8 @@ private:
 	camera_fixed* camera;
 	std::vector<object*> object_queue;
 	std::vector<font_rectangle*> font_queue;
+	std::random_device rng_device;
+	std::mt19937 rng_engine;
 	yahtzee_game game_variables;
 
 public:
