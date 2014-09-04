@@ -63,7 +63,7 @@ bool game::initialise_content()
 	// START Camera Initialise
 	//camera = new camera_fixed(D3DXVECTOR3(18, 10, 10), D3DXVECTOR3(0, 0, 10), D3DXVECTOR3(0, 1, 0),
 	//						  D3DX_PI / 2, 640 / (float)480, 0.1f, 60.0f);
-	camera = new camera_fixed(D3DXVECTOR3(20, 50, 10), D3DXVECTOR3(0, 0, 10), D3DXVECTOR3(0, 1, 0),
+	camera = new camera_fixed(D3DXVECTOR3(20, 40, 20), D3DXVECTOR3(0, 0, 10), D3DXVECTOR3(0, 1, 0),
 							  D3DX_PI / 2, 640 / (float)480, 0.1f, 200.0f);
 	// END Camera Initialise
 
@@ -87,10 +87,10 @@ bool game::initialise_content()
 	// END Init five dice in starting positions
 
 	//START Physics Settings
-	game_variables.throw_variance_floor = -1;
-	game_variables.throw_variance_ceiling = 1;
-	game_variables.throw_force = 50.0f;
-	game_variables.throw_entropy = 30.0f;
+	game_variables.throw_variance_floor = -0.3;
+	game_variables.throw_variance_ceiling = 0.3;
+	game_variables.throw_force = 60.0f;
+	game_variables.throw_entropy = 2.0f;
 	game_variables.gravity_force = 20.0f;
 	game_variables.throw_direction.x = 0;
 	game_variables.throw_direction.y = 1;
@@ -140,16 +140,39 @@ bool game::initialise_content()
 		D3DCOLOR_ARGB(255, 255, 255, 255), TRUE));
 	// END Font Rectangle for Title Display
 
+	// START Font Rectangle for dice values display
+	// TODO build a struct to insert values into constructor
+	RECT dice_position;
+	dice_position.bottom = 480;
+	dice_position.top = 380;
+	dice_position.left = 0;
+	dice_position.right = 640;
+	font_queue.push_back(new font_rectangle(dice_position, DT_CENTER | DT_NOCLIP | DT_VCENTER, 
+		D3DCOLOR_ARGB(255, 255, 255, 255), TRUE));
+	// END Font Rectangle for dice values display
+
 	return TRUE;
 }
 
 void game::update(float timestamp)
 {
 	// font_queue[0] = Game Title
-	std::stringstream game_title;
-	game_title << " Yahtzee Round: " << game_variables.round_count
+	std::stringstream font_output;
+	font_output << " Yahtzee Round: " << game_variables.round_count
 		<< "\n Rolls Left: " << game_variables.rolls_remaining;
-	font_queue[0]->update(game_title.str());
+	font_queue[0]->update(font_output.str());
+	font_output.str("");
+	// font_queue[1] = Dice Values
+	for(unsigned int i = 0; i < object_queue.size(); i++)
+	{
+		if(object_queue[i]->get_object_type() == DIE)
+		{
+			die* temp_pointer = (die*)object_queue[i];
+			font_output << "Die " << i + 1 << ": " << temp_pointer->get_face_value() << "    ";
+		}
+	}
+	font_queue[1]->update(font_output.str());
+	font_output.str("");
 
 	input_manage->begin_update();
 
@@ -162,6 +185,7 @@ void game::update(float timestamp)
 	{
 		if(game_variables.rolls_remaining > 0)
 		{
+			// TODO currently rolls will count down even if a die does not accept a roll
 			roll_dice();
 		}
 	}
@@ -169,6 +193,7 @@ void game::update(float timestamp)
 	// TODO this is a bad solution
 	// might be worth implementing a map for storage or some way 
 	// to retrieve the object I want by name not queue location
+	// TODO CHANGE THIS TO A TOGGLE
 	if(game_variables.rolls_remaining < game_variables.max_rolls)
 	{
 		if(input_manage->get_key_down('1'))

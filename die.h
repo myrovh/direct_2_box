@@ -16,6 +16,7 @@ private:
 	float gravity_force;
 	float throw_force;
 	float throw_entropy;
+	D3DXVECTOR3* facing_array[6];
 
 public:
 	die(mesh* model, D3DXVECTOR3 position, float x_rotation, float y_rotation,

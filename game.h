@@ -27,8 +27,8 @@ struct yahtzee_game
 	// END State Settings
 
 	//START Physics Settings
-	int throw_variance_floor;
-	int throw_variance_ceiling;
+	double throw_variance_floor;
+	double throw_variance_ceiling;
 	float throw_entropy;
 	float throw_force;
 	float gravity_force;
