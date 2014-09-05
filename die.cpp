@@ -40,6 +40,10 @@ void die::update(float timesetp)
 			D3DXVec3Add(&movement, &throw_direction, &gravity_temp);
 			D3DXVec3Add(&positon, &movement, &positon);
 
+			y_rotation += spin_speed * timesetp;
+			z_rotation += (spin_speed + 0.2f) * timesetp;
+			x_rotation += (spin_speed + 0.3f) * timesetp;
+
 			if(throw_force > 0)
 			{
 				throw_force -= throw_entropy * timesetp;
@@ -56,30 +60,32 @@ void die::update(float timesetp)
 		}
 	}
 
-	// START Move dice to face_value
-	float x_move_to = facing_array[face_value - 1]->x;
-	if(x_rotation != x_move_to)
+	if(!thrown)
 	{
-		x_rotation = x_move_to;
-	}
+		// START Move dice to face_value
+		float x_move_to = facing_array[face_value - 1]->x;
+		if(x_rotation != x_move_to)
+		{
+			x_rotation = x_move_to;
+		}
 
-	float z_move_to = facing_array[face_value - 1]->z;
-	if(z_rotation != z_move_to)
-	{
-		z_rotation = z_move_to;
+		float z_move_to = facing_array[face_value - 1]->z;
+		if(z_rotation != z_move_to)
+		{
+			z_rotation = z_move_to;
+		}
+		// END Move dice to face_value
 	}
-	// END Move dice to face_value
 }
 
 void die::set_face_value(int face_value)
 {
-	if(face_value > 0 && face_value < 7)
+	if(!thrown)
 	{
-		this->face_value = face_value;
-	}
-	else
-	{
-		this->face_value = 0;
+		if(face_value > 0 && face_value < 7)
+		{
+			this->face_value = face_value;
+		}
 	}
 }
 
