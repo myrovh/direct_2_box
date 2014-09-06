@@ -151,13 +151,24 @@ bool game::initialise_content()
 		D3DCOLOR_ARGB(255, 255, 255, 255), TRUE));
 	// END Font Rectangle for dice values display
 
+	// START Font Rectangle for dice values display
+	// TODO build a struct to insert values into constructor
+	RECT score_position;
+	score_position.bottom = 480;
+	score_position.top = 0;
+	score_position.left = 460;
+	score_position.right = 640;
+	font_queue.push_back(new font_rectangle(score_position, DT_NOCLIP,
+		D3DCOLOR_ARGB(255, 255, 255, 255), TRUE));
+	// END Font Rectangle for dice values display
+
 	return TRUE;
 }
 
 void game::update(float timestamp)
 {
-	// font_queue[0] = Game Title
 	std::stringstream font_output;
+	// font_queue[0] = Game Title
 	font_output << " Yahtzee Round: " << game_variables.round_count
 		<< "\n Rolls Left: " << game_variables.rolls_remaining;
 	font_queue[0]->update(font_output.str());
@@ -172,6 +183,21 @@ void game::update(float timestamp)
 		}
 	}
 	font_queue[1]->update(font_output.str());
+	font_output.str("");
+	// font_queue[2] = Score List
+	font_output << "Ones: " << calculate_yahtzee_values(ONES) << "\n"
+		<< "Twos: " << calculate_yahtzee_values(TWOS) << "\n"
+		<< "Threes: " << calculate_yahtzee_values(THREES) << "\n"
+		<< "Fours: " << calculate_yahtzee_values(FOURS) << "\n"
+		<< "Fives: " << calculate_yahtzee_values(FIVES) << "\n"
+		<< "Sixes: " << calculate_yahtzee_values(SIXES) << "\n"
+		<< "Bonus: " << calculate_yahtzee_values(BONUS) << "\n"
+		<< "3 of a Kind: " << calculate_yahtzee_values(KIND_3) << "\n"
+		<< "4 of a Kind: " << calculate_yahtzee_values(KIND_4) << "\n"
+		<< "Full House: " << calculate_yahtzee_values(HOUSE) << "\n"
+		<< "Small Straight: " << calculate_yahtzee_values(S_STRAIGHT) << "\n"
+		<< "Large Straight: " << calculate_yahtzee_values(L_STRAIGHT) << "\n";
+	font_queue[2]->update(font_output.str());
 	font_output.str("");
 
 	input_manage->begin_update();
@@ -568,30 +594,53 @@ int game::calculate_yahtzee_values(yahtzee_types value_to_return)
 	if(value_to_return == S_STRAIGHT)
 	{
 		bool is_small_straight = FALSE;
-		bool is_large_straight = FALSE;
-		std::list<int>::iterator posibility_1 = dice_value_queue.begin();
-		std::list<int>::iterator posibility_1_end = dice_value_queue.end();
-		posibility_1_end--;
-		posibility_1_end--;
-		posibility_1_end--;
-		std::list<int>::iterator posibility_2 = dice_value_queue.begin();
-		posibility_2++;
-		posibility_2++;
-		std::list<int>::iterator posibility_2_end = dice_value_queue.end();
-		posibility_2_end--;
-		std::list<int>::iterator posibility_3 = dice_value_queue.begin();
-		posibility_3++;
-		posibility_3++;
-		posibility_3++;
-		std::list<int>::iterator posibility_3_end = dice_value_queue.end();
+		std::list<int>::iterator start = dice_value_queue.begin();
 
-		int valid_count = 0;
-		for(; posibility_1 != posibility_1_end; posibility_1++)
+		for(int iterator_count = 0; iterator_count <= 3 && !is_small_straight; iterator_count++)
 		{
-			if(*posibility_1 < *(posibility_1++))
+			int valid_count = 0;
+			for(int count = 0; count <= 4; count++)
+			{
+				std::list<int>::iterator pass = start; 
+				if(*(pass++) == (*pass + 1))
+				{
+					valid_count++;
+					if(valid_count == 4)
+					{
+						is_small_straight = TRUE;
+					}
+				}
+				pass++;
+			}
+			start++;
+		}
+
+		if(is_small_straight)
+		{
+			return_score = game_variables.small_straight_value;
+		}
+	}
+
+	if(value_to_return == L_STRAIGHT)
+	{
+		bool is_large_straight = FALSE;
+		int valid_count = 0;
+
+		for(std::list<int>::iterator i = dice_value_queue.begin(); i != dice_value_queue.end(); i++)
+		{
+			if(*(i++) == (*i + 1))
 			{
 				valid_count++;
+				if(valid_count == 5)
+				{
+					is_large_straight = TRUE;
+				}
 			}
+		}
+
+		if(is_large_straight)
+		{
+			return_score = game_variables.large_straight_score;
 		}
 	}
 	// END test small and large straight
