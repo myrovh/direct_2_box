@@ -301,3 +301,298 @@ void game::roll_dice()
 	}
 	//game_variables.rolls_remaining--;
 }
+
+int game::calculate_yahtzee_values(yahtzee_types value_to_return)
+{
+	std::list<int> dice_value_queue;
+	int return_score = 0;
+	int total_dice_values = 0;
+
+	// START put dice value into a queue
+	for(unsigned int i = 0; i < object_queue.size(); i++)
+	{
+		if(object_queue[i]->get_object_type() == DIE)
+		{
+			die* temp_pointer = (die*)object_queue[i];
+			dice_value_queue.push_back(temp_pointer->get_face_value());
+		}
+	}
+	dice_value_queue.sort();
+	// END put dice value into a queue
+
+	// START calculate total value of rolled dice
+	for(std::list<int>::iterator i = dice_value_queue.begin(); i != dice_value_queue.end(); i++)
+	{
+		total_dice_values += *i;
+	}
+	// END calculate total value of rolled dice
+
+	// START Calculate ONES
+	if(value_to_return == ONES)
+	{
+		for(std::list<int>::iterator i = dice_value_queue.begin(); i != dice_value_queue.end(); i++)
+		{
+			if(*i == 1)
+			{
+				return_score += *i;
+			}
+		}
+		return return_score;
+	}
+	// END Calculate ONES
+
+	// START Calculate TWOS
+	if(value_to_return == TWOS)
+	{
+		for(std::list<int>::iterator i = dice_value_queue.begin(); i != dice_value_queue.end(); i++)
+		{
+			if(*i == 2)
+			{
+				return_score += *i;
+			}
+		}
+		return return_score;
+	}
+	// END Calculate TWOS
+
+	// START Calculate THREES
+	if(value_to_return == THREES)
+	{
+		for(std::list<int>::iterator i = dice_value_queue.begin(); i != dice_value_queue.end(); i++)
+		{
+			if(*i == 3)
+			{
+				return_score += *i;
+			}
+		}
+		return return_score;
+	}
+	// END Calculate THREES
+
+	// START Calculate FOURS
+	if(value_to_return == FOURS)
+	{
+		for(std::list<int>::iterator i = dice_value_queue.begin(); i != dice_value_queue.end(); i++)
+		{
+			if(*i == 4)
+			{
+				return_score += *i;
+			}
+		}
+		return return_score;
+	}
+	// END Calculate FOURS
+
+	// START Calculate FIVES
+	if(value_to_return == FIVES)
+	{
+		for(std::list<int>::iterator i = dice_value_queue.begin(); i != dice_value_queue.end(); i++)
+		{
+			if(*i == 5)
+			{
+				return_score += *i;
+			}
+		}
+		return return_score;
+	}
+	// END Calculate FIVES
+
+	// START Calculate SIXES
+	if(value_to_return == SIXES)
+	{
+		for(std::list<int>::iterator i = dice_value_queue.begin(); i != dice_value_queue.end(); i++)
+		{
+			if(*i == 6)
+			{
+				return_score += *i;
+			}
+		}
+		return return_score;
+	}
+	// END Calculate SIXES
+
+	// START Calculate BONUS
+	if(value_to_return == BONUS)
+	{
+		// TODO worth throwing score values into a map or vector to make this test easier
+		int upper_section_total = 0;
+		if(game_variables.ones_score != -1)
+		{
+			upper_section_total += game_variables.ones_score;
+		}
+		if(game_variables.twos_score != -1)
+		{
+			upper_section_total += game_variables.twos_score;
+		}
+		if(game_variables.threes_score != -1)
+		{
+			upper_section_total += game_variables.threes_score;
+		}
+		if(game_variables.fours_score != -1)
+		{
+			upper_section_total += game_variables.fours_score;
+		}
+		if(game_variables.fives_score != -1)
+		{
+			upper_section_total += game_variables.fives_score;
+		}
+		if(game_variables.sixes_score != -1)
+		{
+			upper_section_total += game_variables.sixes_score;
+		}
+		if(upper_section_total >= game_variables.bonus_threshold)
+		{
+			return_score = game_variables.bonus_value;
+		}
+		return return_score;
+	}
+	// END Calculate BONUS
+
+	// START Calculate KIND_3 and KIND_4 and YAHTZEE and HOUSE
+	if(value_to_return == KIND_3 || value_to_return == KIND_4 || 
+	   value_to_return == YAHTZEE || value_to_return == HOUSE)
+	{
+		bool is_two_pair = FALSE;
+		bool is_three_pair = FALSE;
+		bool is_four_pair = FALSE;
+		bool is_five_pair = FALSE;
+		int face_count[6] = {0, 0, 0, 0, 0, 0};
+
+		// START Get number of each die value
+		for(std::list<int>::iterator i = dice_value_queue.begin(); i != dice_value_queue.end(); i++)
+		{
+			if(*i == 1)
+			{
+				face_count[0]++;
+			}
+			if(*i == 2)
+			{
+				face_count[1]++;
+			}
+			if(*i == 3)
+			{
+				face_count[2]++;
+			}
+			if(*i == 4)
+			{
+				face_count[3]++;
+			}
+			if(*i == 5)
+			{
+				face_count[4]++;
+			}
+			if(*i == 6)
+			{
+				face_count[5]++;
+			}
+		}
+		// END Get number of each die value
+
+		//START Test for yahtzee
+		for(unsigned int i = 0; i < 6; i++)
+		{
+			if(face_count[i] == 5)
+			{
+				is_five_pair = TRUE;
+			}
+		}
+		//END Test for yahtzee
+
+		//START Test for four of a kind
+		for(unsigned int i = 0; i < 6; i++)
+		{
+			if(face_count[i] == 4)
+			{
+				is_four_pair = TRUE;
+			}
+		}
+		//END Test for four of a kind
+
+		//START Test state for dice sets
+		for(unsigned int i = 0; i < 6; i++)
+		{
+			if(face_count[i] == 5)
+			{
+				is_five_pair = TRUE;
+			}
+			if(face_count[i] == 4)
+			{
+				is_four_pair = TRUE;
+			}
+			if(face_count[i] == 3)
+			{
+				is_three_pair = TRUE;
+			}
+			if(face_count[i] == 2)
+			{
+				is_two_pair = TRUE;
+			}
+		}
+		//START Test state for dice sets
+
+		//START assign scores
+		if(value_to_return == KIND_3)
+		{
+			if(is_three_pair)
+			{
+				return_score = total_dice_values;
+			}
+		}
+		else if(value_to_return == KIND_4)
+		{
+			if(is_four_pair)
+			{
+				return_score = total_dice_values;
+			}
+		}
+		else if(value_to_return == HOUSE)
+		{
+			if(is_two_pair && is_three_pair)
+			{
+				return_score = game_variables.full_house_value;
+			}
+		}
+		else if(value_to_return == YAHTZEE)
+		{
+			if(is_five_pair)
+			{
+				return_score = game_variables.yahtzee_value;
+			}
+		}
+		//END assign scores
+		return return_score;
+	}
+	// END Calculate KIND_3 and KIND_4 and YAHTZEE and HOUSE
+
+	// START test small and large straight
+	if(value_to_return == S_STRAIGHT)
+	{
+		bool is_small_straight = FALSE;
+		bool is_large_straight = FALSE;
+		std::list<int>::iterator posibility_1 = dice_value_queue.begin();
+		std::list<int>::iterator posibility_1_end = dice_value_queue.end();
+		posibility_1_end--;
+		posibility_1_end--;
+		posibility_1_end--;
+		std::list<int>::iterator posibility_2 = dice_value_queue.begin();
+		posibility_2++;
+		posibility_2++;
+		std::list<int>::iterator posibility_2_end = dice_value_queue.end();
+		posibility_2_end--;
+		std::list<int>::iterator posibility_3 = dice_value_queue.begin();
+		posibility_3++;
+		posibility_3++;
+		posibility_3++;
+		std::list<int>::iterator posibility_3_end = dice_value_queue.end();
+
+		int valid_count = 0;
+		for(; posibility_1 != posibility_1_end; posibility_1++)
+		{
+			if(*posibility_1 < *(posibility_1++))
+			{
+				valid_count++;
+			}
+		}
+	}
+	// END test small and large straight
+}

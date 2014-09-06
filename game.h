@@ -13,8 +13,26 @@
 #include <windows.h>
 #include <stdio.h> //vsprintf
 #include <vector> //object_queue
+#include <list>
 #include <sstream> //font insertion
 #include <random>
+
+enum yahtzee_types {
+	ONES, 
+	TWOS, 
+	THREES, 
+	FOURS, 
+	FIVES, 
+	SIXES, 
+	BONUS,
+	KIND_3,
+	KIND_4,
+	HOUSE,
+	S_STRAIGHT,
+	L_STRAIGHT,
+	YAHTZEE,
+	CHANCE
+};
 
 struct yahtzee_game
 {
@@ -87,6 +105,8 @@ public:
 	void trace(const char * fmt, ...);
 
 	void roll_dice();
+	int calculate_yahtzee_values(yahtzee_types value_to_return);
+	int assign_yahtzee_values(yahtzee_types value_to_set);
 };
 
 #endif
