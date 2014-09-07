@@ -169,36 +169,45 @@ void game::update(float timestamp)
 {
 	std::stringstream font_output;
 	// font_queue[0] = Game Title
-	font_output << " Yahtzee Round: " << game_variables.round_count
-		<< "\n Rolls Left: " << game_variables.rolls_remaining;
-	font_queue[0]->update(font_output.str());
-	font_output.str("");
-	// font_queue[1] = Dice Values
-	for(unsigned int i = 0; i < object_queue.size(); i++)
+	if(font_queue[0]->is_visible())
 	{
-		if(object_queue[i]->get_object_type() == DIE)
-		{
-			die* temp_pointer = (die*)object_queue[i];
-			font_output << "Die " << i + 1 << ": " << temp_pointer->get_face_value() << "    ";
-		}
+		font_output << " Yahtzee Round: " << game_variables.round_count
+			<< "\n Rolls Left: " << game_variables.rolls_remaining;
+		font_queue[0]->update(font_output.str());
+		font_output.str("");
 	}
-	font_queue[1]->update(font_output.str());
-	font_output.str("");
+	// font_queue[1] = Dice Values
+	if(font_queue[1]->is_visible())
+	{
+		for(unsigned int i = 0; i < object_queue.size(); i++)
+		{
+			if(object_queue[i]->get_object_type() == DIE)
+			{
+				die* temp_pointer = (die*)object_queue[i];
+				font_output << "Die " << i + 1 << ": " << temp_pointer->get_face_value() << "    ";
+			}
+		}
+		font_queue[1]->update(font_output.str());
+		font_output.str("");
+	}
 	// font_queue[2] = Score List
-	font_output << "Ones: " << calculate_yahtzee_values(ONES) << "\n"
-		<< "Twos: " << calculate_yahtzee_values(TWOS) << "\n"
-		<< "Threes: " << calculate_yahtzee_values(THREES) << "\n"
-		<< "Fours: " << calculate_yahtzee_values(FOURS) << "\n"
-		<< "Fives: " << calculate_yahtzee_values(FIVES) << "\n"
-		<< "Sixes: " << calculate_yahtzee_values(SIXES) << "\n"
-		<< "Bonus: " << calculate_yahtzee_values(BONUS) << "\n"
-		<< "3 of a Kind: " << calculate_yahtzee_values(KIND_3) << "\n"
-		<< "4 of a Kind: " << calculate_yahtzee_values(KIND_4) << "\n"
-		<< "Full House: " << calculate_yahtzee_values(HOUSE) << "\n"
-		<< "Small Straight: " << calculate_yahtzee_values(S_STRAIGHT) << "\n"
-		<< "Large Straight: " << calculate_yahtzee_values(L_STRAIGHT) << "\n";
-	font_queue[2]->update(font_output.str());
-	font_output.str("");
+	if(font_queue[2]->is_visible())
+	{
+		font_output << "Ones: " << calculate_yahtzee_values(ONES) << "\n"
+			<< "Twos: " << calculate_yahtzee_values(TWOS) << "\n"
+			<< "Threes: " << calculate_yahtzee_values(THREES) << "\n"
+			<< "Fours: " << calculate_yahtzee_values(FOURS) << "\n"
+			<< "Fives: " << calculate_yahtzee_values(FIVES) << "\n"
+			<< "Sixes: " << calculate_yahtzee_values(SIXES) << "\n"
+			<< "Bonus: " << calculate_yahtzee_values(BONUS) << "\n"
+			<< "3 of a Kind: " << calculate_yahtzee_values(KIND_3) << "\n"
+			<< "4 of a Kind: " << calculate_yahtzee_values(KIND_4) << "\n"
+			<< "Full House: " << calculate_yahtzee_values(HOUSE) << "\n"
+			<< "Small Straight: " << calculate_yahtzee_values(S_STRAIGHT) << "\n"
+			<< "Large Straight: " << calculate_yahtzee_values(L_STRAIGHT) << "\n";
+		font_queue[2]->update(font_output.str());
+		font_output.str("");
+	}
 
 	input_manage->begin_update();
 
@@ -248,24 +257,6 @@ void game::update(float timestamp)
 			temp_pointer->set_locked();
 		}
 	}
-
-	//TODO lock all dice when thrown has finished and there are no more rolls
-	/*
-	if(game_variables.rolls_remaining <= 0)
-	{
-		for(unsigned int i = 0; i < object_queue.size(); i++)
-		{
-			if(object_queue[i]->get_object_type() == DIE)
-			{
-				die* temp_pointer = (die*)object_queue[i];
-				if(temp_pointer->get_locked() == FALSE)
-				{
-					temp_pointer->set_locked();
-				}
-			}
-		}
-	}
-	*/
 
 	if(input_manage->get_key_down('H'))
 	{
@@ -317,7 +308,6 @@ void game::roll_dice()
 														  game_variables.throw_variance_ceiling);
 				game_variables.throw_direction.x = variance(rng_engine);
 				game_variables.throw_direction.z = variance(rng_engine);
-				//TODO add check to run through all dice to ensure that they all get
 				temp_pointer->set_throw(game_variables.throw_direction, game_variables.gravity_force,
 										game_variables.throw_force, game_variables.throw_entropy);
 				//END create animation

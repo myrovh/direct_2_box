@@ -20,6 +20,7 @@ public:
 	void toggle_visibility();
 	void set_visible() { show = TRUE; }
 	void set_invisible() { show = FALSE; }
+	bool is_visible() { return show; }
 
 	void update(std::string);
 	void render(LPD3DXFONT font);
