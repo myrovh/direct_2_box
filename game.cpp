@@ -619,29 +619,32 @@ int game::calculate_yahtzee_values(yahtzee_types value_to_return)
 		{
 			return_score = game_variables.small_straight_value;
 		}
+		return return_score;
 	}
 
 	if(value_to_return == L_STRAIGHT)
 	{
 		bool is_large_straight = FALSE;
 		int valid_count = 0;
+		std::list<int>::iterator i = dice_value_queue.begin();
 
-		for(std::list<int>::iterator i = dice_value_queue.begin(); i != dice_value_queue.end(); i++)
+		for(int count = 1; count < 5; count++)
 		{
-			if(*(i++) == (*i + 1))
-			{
-				valid_count++;
-				if(valid_count == 5)
+				if(*(i++) == (*i + 1))
 				{
-					is_large_straight = TRUE;
+					valid_count++;
+					if(valid_count == 5)
+					{
+						is_large_straight = TRUE;
+					}
 				}
-			}
 		}
 
 		if(is_large_straight)
 		{
 			return_score = game_variables.large_straight_score;
 		}
+		return return_score;
 	}
 	// END test small and large straight
 }
