@@ -204,7 +204,8 @@ void game::update(float timestamp)
 			<< "4 of a Kind: " << calculate_yahtzee_values(KIND_4) << "\n"
 			<< "Full House: " << calculate_yahtzee_values(HOUSE) << "\n"
 			<< "Small Straight: " << calculate_yahtzee_values(S_STRAIGHT) << "\n"
-			<< "Large Straight: " << calculate_yahtzee_values(L_STRAIGHT) << "\n";
+			<< "Large Straight: " << calculate_yahtzee_values(L_STRAIGHT) << "\n"
+			<< "Yahtzee: " << calculate_yahtzee_values(YAHTZEE) << "\n";
 		font_queue[2]->update(font_output.str());
 		font_output.str("");
 	}
@@ -637,4 +638,31 @@ int game::calculate_yahtzee_values(yahtzee_types value_to_return)
 		return return_score;
 	}
 	// END test small and large straight
+
+	// START yahtzee test
+	if(value_to_return == YAHTZEE)
+	{
+		bool is_yahtzee = TRUE;
+		std::list<int>::iterator i = dice_value_queue.begin();
+		int previous_value = 0;
+
+		for(; i != dice_value_queue.end(); i++)
+		{
+			if(previous_value != 0)
+			{
+				if(previous_value != *i)
+				{
+					is_yahtzee = FALSE;
+				}
+			}
+			previous_value = *i;
+		}
+
+		if(is_yahtzee)
+		{
+			return_score = game_variables.yahtzee_value;
+		}
+		return return_score;
+	}
+	// END yahtzee test
 }
