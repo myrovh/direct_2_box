@@ -230,32 +230,32 @@ void game::update(float timestamp)
 	// might be worth implementing a map for storage or some way 
 	// to retrieve the object I want by name not queue location
 	// TODO CHANGE THIS TO A TOGGLE
-	if(game_variables.rolls_remaining < game_variables.max_rolls)
+	if(TRUE)//game_variables.rolls_remaining < game_variables.max_rolls)
 	{
 		if(input_manage->get_key_down('1'))
 		{
 			die* temp_pointer = (die*)object_queue[0];
-			temp_pointer->set_locked();
+			temp_pointer->toggle_locked();
 		}
 		if(input_manage->get_key_down('2'))
 		{
 			die* temp_pointer = (die*)object_queue[1];
-			temp_pointer->set_locked();
+			temp_pointer->toggle_locked();
 		}
 		if(input_manage->get_key_down('3'))
 		{
 			die* temp_pointer = (die*)object_queue[2];
-			temp_pointer->set_locked();
+			temp_pointer->toggle_locked();
 		}
 		if(input_manage->get_key_down('4'))
 		{
 			die* temp_pointer = (die*)object_queue[3];
-			temp_pointer->set_locked();
+			temp_pointer->toggle_locked();
 		}
 		if(input_manage->get_key_down('5'))
 		{
 			die* temp_pointer = (die*)object_queue[4];
-			temp_pointer->set_locked();
+			temp_pointer->toggle_locked();
 		}
 	}
 
