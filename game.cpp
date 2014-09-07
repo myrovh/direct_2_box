@@ -7,6 +7,7 @@ game::game()
 	mesh_manager* mesh_manage = NULL;
 	input_manager* input_manage = NULL;
 	yahtzee_game game_variables; //Not quite sure on how to be instantiating structs
+	std::random_device rng_device;
 	std::mt19937 rng_engine(rng_device());
 }
 
@@ -327,7 +328,7 @@ void game::update(float timestamp)
 		new_round();
 	}
 
-	if(input_manage->get_key_down('H'))
+	if(input_manage->get_key_down('U'))
 	{
 		font_queue[0]->toggle_visibility();
 	}
@@ -368,7 +369,8 @@ void game::roll_dice()
 			if(temp_pointer->get_locked() == FALSE)
 			{
 				// START assign die face values
-				int face_value = rand() % 6 + 1;
+				std::uniform_int_distribution<> die_range(1, 6);
+				int face_value = die_range(rng_engine);
 				temp_pointer->set_face_value(face_value);
 				// END assign die face values
 
@@ -384,12 +386,22 @@ void game::roll_dice()
 			}
 		}
 	}
-	//game_variables.rolls_remaining--;
+	game_variables.rolls_remaining--;
 }
 
 void game::new_round()
 {
 	game_variables.round_count++;
+	game_variables.is_score_for_round_set = FALSE;
+	game_variables.rolls_remaining = game_variables.max_rolls;
+	for(unsigned int i = 0; i < object_queue.size(); i++)
+	{
+		if(object_queue[i]->get_object_type() == DIE)
+		{
+			die* temp_pointer = (die*)object_queue[i];
+			temp_pointer->set_unlocked();
+		}
+	}
 }
 
 bool game::assign_yahtzee_values(yahtzee_types value_to_set)
