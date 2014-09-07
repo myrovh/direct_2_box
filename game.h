@@ -56,6 +56,7 @@ struct yahtzee_game
 	// START upper section
 	int bonus_threshold;
 	int bonus_value;
+	int bonus_score;
 
 	int ones_score;
 	int twos_score;
@@ -77,6 +78,7 @@ struct yahtzee_game
 	int small_straight_score;
 	int large_straight_score;
 	int yahtzee_score;
+	int chance_score;
 	// END lower section
 };
 
@@ -105,8 +107,9 @@ public:
 	void trace(const char * fmt, ...);
 
 	void roll_dice();
+	void new_round();
 	int calculate_yahtzee_values(yahtzee_types value_to_return);
-	int assign_yahtzee_values(yahtzee_types value_to_set);
+	bool assign_yahtzee_values(yahtzee_types value_to_set);
 };
 
 #endif
