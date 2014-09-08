@@ -219,7 +219,7 @@ void game::update(float timestamp)
 		if(game_variables.threes_score == -1) { 
 			font_output << "Threes: " << calculate_yahtzee_values(THREES) << " *\n"; }
 		else { font_output << "Threes: " << game_variables.threes_score << "\n"; }
-		if(game_variables.threes_score == -1) { 
+		if(game_variables.fours_score == -1) { 
 			font_output << "Fours: " << calculate_yahtzee_values(FOURS) << " *\n"; }
 		else { font_output << "Fours: " << game_variables.fours_score << "\n"; }
 		if(game_variables.fives_score == -1) { 
