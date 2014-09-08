@@ -110,6 +110,7 @@ bool game::initialise_content()
 	// END Game settings
 
 	// START Zeoring Game Scores
+	game_variables.ones_score = -1;
 	game_variables.twos_score = -1;
 	game_variables.threes_score = -1;
 	game_variables.fours_score = -1;
@@ -209,27 +210,50 @@ void game::update(float timestamp)
 	if(font_queue[2]->is_visible())
 	{
 		// START generate score inserts
-		if(game_variables.ones_score == -1)
-		{
-			
-		}
+		if(game_variables.ones_score == -1) { 
+			font_output << "Ones: " << calculate_yahtzee_values(ONES) << " *\n"; }
+		else { font_output << "Ones: " << game_variables.ones_score << "\n"; }
+		if(game_variables.twos_score == -1) { 
+			font_output << "Twos: " << calculate_yahtzee_values(TWOS) << " *\n"; }
+		else { font_output << "Twos: " << game_variables.twos_score << "\n"; }
+		if(game_variables.threes_score == -1) { 
+			font_output << "Threes: " << calculate_yahtzee_values(THREES) << " *\n"; }
+		else { font_output << "Threes: " << game_variables.threes_score << "\n"; }
+		if(game_variables.threes_score == -1) { 
+			font_output << "Fours: " << calculate_yahtzee_values(FOURS) << " *\n"; }
+		else { font_output << "Fours: " << game_variables.fours_score << "\n"; }
+		if(game_variables.fives_score == -1) { 
+			font_output << "Fives: " << calculate_yahtzee_values(FIVES) << " *\n"; }
+		else { font_output << "Fives: " << game_variables.fives_score << "\n"; }
+		if(game_variables.sixes_score == -1) { 
+			font_output << "Sixes: " << calculate_yahtzee_values(SIXES) << " *\n"; }
+		else { font_output << "Sixes: " << game_variables.sixes_score << "\n"; }
+		if(game_variables.bonus_score == -1) { 
+			font_output << "Bonus: " << calculate_yahtzee_values(BONUS) << " *\n"; }
+		else { font_output << "Bonus: " << game_variables.bonus_score << "\n"; }
+		if(game_variables.three_of_a_kind_score == -1) { 
+			font_output << "3 of a Kind : " << calculate_yahtzee_values(KIND_3) << " *\n"; }
+		else { font_output << "3 of a Kind: " << game_variables.three_of_a_kind_score << "\n"; }
+		if(game_variables.four_of_a_kind_score == -1) { 
+			font_output << "4 of a Kind : " << calculate_yahtzee_values(KIND_4) << " *\n"; }
+		else { font_output << "4 of a Kind: " << game_variables.four_of_a_kind_score << "\n"; }
+		if(game_variables.full_house_score == -1) { 
+			font_output << "Full House: " << calculate_yahtzee_values(HOUSE) << " *\n"; }
+		else { font_output << "Full House: " << game_variables.full_house_score << "\n"; }
+		if(game_variables.small_straight_score == -1) { 
+			font_output << "Small Straight: " << calculate_yahtzee_values(S_STRAIGHT) << " *\n"; }
+		else { font_output << "Small Straight: " << game_variables.small_straight_score << "\n"; }
+		if(game_variables.large_straight_score == -1) { 
+			font_output << "Large Straight: " << calculate_yahtzee_values(L_STRAIGHT) << " *\n"; }
+		else { font_output << "Large Straight: " << game_variables.large_straight_score << "\n"; }
+		if(game_variables.yahtzee_score == -1) { 
+			font_output << "Yahtzee: " << calculate_yahtzee_values(YAHTZEE) << " *\n"; }
+		else { font_output << "Yahtzee: " << game_variables.yahtzee_score << "\n"; }
+		if(game_variables.chance_score == -1) { 
+			font_output << "Chance: " << calculate_yahtzee_values(CHANCE) << " *\n"; }
+		else { font_output << "Chance: " << game_variables.chance_score << "\n"; }
 		// END generate score inserts
 		// START print text and score inserts
-		font_output 
-			<< "Ones: " << calculate_yahtzee_values(ONES) << "\n"
-			<< "Twos: " << calculate_yahtzee_values(TWOS) << "\n"
-			<< "Threes: " << calculate_yahtzee_values(THREES) << "\n"
-			<< "Fours: " << calculate_yahtzee_values(FOURS) << "\n"
-			<< "Fives: " << calculate_yahtzee_values(FIVES) << "\n"
-			<< "Sixes: " << calculate_yahtzee_values(SIXES) << "\n"
-			<< "Bonus: " << calculate_yahtzee_values(BONUS) << "\n"
-			<< "3 of a Kind: " << calculate_yahtzee_values(KIND_3) << "\n"
-			<< "4 of a Kind: " << calculate_yahtzee_values(KIND_4) << "\n"
-			<< "Full House: " << calculate_yahtzee_values(HOUSE) << "\n"
-			<< "Small Straight: " << calculate_yahtzee_values(S_STRAIGHT) << "\n"
-			<< "Large Straight: " << calculate_yahtzee_values(L_STRAIGHT) << "\n"
-			<< "Yahtzee: " << calculate_yahtzee_values(YAHTZEE) << "\n"
-			<< "Chance: " << calculate_yahtzee_values(CHANCE) << "\n";
 		font_queue[2]->update(font_output.str());
 		// END print text and score inserts
 		font_output.str("");
@@ -305,57 +329,31 @@ void game::update(float timestamp)
 		if(!game_variables.is_score_for_round_set)
 		{
 			if(input_manage->get_key_down('Z'))
-			{
-				game_variables.is_score_for_round_set = assign_yahtzee_values(ONES);
-			}
+			{ game_variables.is_score_for_round_set = assign_yahtzee_values(ONES); }
 			if(input_manage->get_key_down('X'))
-			{
-				game_variables.is_score_for_round_set = assign_yahtzee_values(TWOS);
-			}
+			{ game_variables.is_score_for_round_set = assign_yahtzee_values(TWOS); }
 			if(input_manage->get_key_down('C'))
-			{
-				game_variables.is_score_for_round_set = assign_yahtzee_values(THREES);
-			}
+			{ game_variables.is_score_for_round_set = assign_yahtzee_values(THREES); }
 			if(input_manage->get_key_down('V'))
-			{
-				game_variables.is_score_for_round_set = assign_yahtzee_values(FOURS);
-			}
+			{ game_variables.is_score_for_round_set = assign_yahtzee_values(FOURS); }
 			if(input_manage->get_key_down('B'))
-			{
-				game_variables.is_score_for_round_set = assign_yahtzee_values(FIVES);
-			}
+			{ game_variables.is_score_for_round_set = assign_yahtzee_values(FIVES); }
 			if(input_manage->get_key_down('N'))
-			{
-				game_variables.is_score_for_round_set = assign_yahtzee_values(SIXES);
-			}
+			{ game_variables.is_score_for_round_set = assign_yahtzee_values(SIXES); }
 			if(input_manage->get_key_down('M'))
-			{
-				game_variables.is_score_for_round_set = assign_yahtzee_values(KIND_3);
-			}
+			{ game_variables.is_score_for_round_set = assign_yahtzee_values(KIND_3); }
 			if(input_manage->get_key_down('A'))
-			{
-				game_variables.is_score_for_round_set = assign_yahtzee_values(KIND_4);
-			}
+			{ game_variables.is_score_for_round_set = assign_yahtzee_values(KIND_4); }
 			if(input_manage->get_key_down('S'))
-			{
-				game_variables.is_score_for_round_set = assign_yahtzee_values(HOUSE);
-			}
+			{ game_variables.is_score_for_round_set = assign_yahtzee_values(HOUSE); }
 			if(input_manage->get_key_down('D'))
-			{
-				game_variables.is_score_for_round_set = assign_yahtzee_values(S_STRAIGHT);
-			}
+			{ game_variables.is_score_for_round_set = assign_yahtzee_values(S_STRAIGHT); }
 			if(input_manage->get_key_down('F'))
-			{
-				game_variables.is_score_for_round_set = assign_yahtzee_values(L_STRAIGHT);
-			}
+			{ game_variables.is_score_for_round_set = assign_yahtzee_values(L_STRAIGHT); }
 			if(input_manage->get_key_down('G'))
-			{
-				game_variables.is_score_for_round_set = assign_yahtzee_values(YAHTZEE);
-			}
+			{ game_variables.is_score_for_round_set = assign_yahtzee_values(YAHTZEE); }
 			if(input_manage->get_key_down('H'))
-			{
-				game_variables.is_score_for_round_set = assign_yahtzee_values(CHANCE);
-			}
+			{ game_variables.is_score_for_round_set = assign_yahtzee_values(CHANCE); }
 		}
 	}
 	//END set scores
@@ -440,50 +438,17 @@ bool game::check_game_over()
 	bool any_scores_unset = FALSE;
 
 	//Check all vars
-	if(game_variables.ones_score == -1)
-	{
-		any_scores_unset = TRUE;
-	}
-	if(game_variables.twos_score == -1)
-	{
-		any_scores_unset = TRUE;
-	}
-	if(game_variables.threes_score == -1)
-	{
-		any_scores_unset = TRUE;
-	}
-	if(game_variables.fours_score == -1)
-	{
-		any_scores_unset = TRUE;
-	}
-	if(game_variables.fives_score == -1)
-	{
-		any_scores_unset = TRUE;
-	}
-	if(game_variables.sixes_score == -1)
-	{
-		any_scores_unset = TRUE;
-	}
-	if(game_variables.full_house_score == -1)
-	{
-		any_scores_unset = TRUE;
-	}
-	if(game_variables.small_straight_score == -1)
-	{
-		any_scores_unset = TRUE;
-	}
-	if(game_variables.large_straight_score == -1)
-	{
-		any_scores_unset = TRUE;
-	}
-	if(game_variables.yahtzee_score == -1)
-	{
-		any_scores_unset = TRUE;
-	}
-	if(game_variables.chance_score == -1)
-	{
-		any_scores_unset = TRUE;
-	}
+	if(game_variables.ones_score == -1) { any_scores_unset = TRUE; }
+	if(game_variables.twos_score == -1) { any_scores_unset = TRUE; }
+	if(game_variables.threes_score == -1) { any_scores_unset = TRUE; }
+	if(game_variables.fours_score == -1) { any_scores_unset = TRUE; }
+	if(game_variables.fives_score == -1) { any_scores_unset = TRUE; }
+	if(game_variables.sixes_score == -1) { any_scores_unset = TRUE; }
+	if(game_variables.full_house_score == -1) { any_scores_unset = TRUE; }
+	if(game_variables.small_straight_score == -1) { any_scores_unset = TRUE; }
+	if(game_variables.large_straight_score == -1) { any_scores_unset = TRUE; }
+	if(game_variables.yahtzee_score == -1) { any_scores_unset = TRUE; }
+	if(game_variables.chance_score == -1) { any_scores_unset = TRUE; }
 
 	if(any_scores_unset)
 	{
