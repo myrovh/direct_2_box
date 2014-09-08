@@ -169,11 +169,11 @@ bool game::initialise_content()
 	// START Font Rectangle for game over display
 	// TODO build a struct to insert values into constructor
 	RECT game_over_position;
-	game_over_position.bottom = 200;
+	game_over_position.bottom = 120;
 	game_over_position.top = 0;
-	game_over_position.left = 300;
-	game_over_position.right = 100;
-	font_queue.push_back(new font_rectangle(game_over_position, DT_NOCLIP,
+	game_over_position.left = 0;
+	game_over_position.right = 540;
+	font_queue.push_back(new font_rectangle(game_over_position, DT_CENTER | DT_VCENTER | DT_NOCLIP,
 		D3DCOLOR_ARGB(255, 255, 255, 255), TRUE));
 	font_queue[3]->set_invisible();
 	// END Font Rectangle for dice values display
@@ -262,6 +262,7 @@ void game::update(float timestamp)
 	if(font_queue[3]->is_visible())
 	{
 		font_output << "Game is Over. Final Score = " << calculate_final_score() << "\n";
+		font_queue[3]->update(font_output.str());
 		font_output.str("");
 	}
 
