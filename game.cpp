@@ -567,7 +567,7 @@ bool game::assign_yahtzee_values(yahtzee_types value_to_set)
 		{
 			if(game_variables.three_of_a_kind_score == -1)
 			{
-				game_variables.three_of_a_kind_score = calculate_yahtzee_values(FIVES);
+				game_variables.three_of_a_kind_score = calculate_yahtzee_values(KIND_3);
 				return TRUE;
 			}
 		}
