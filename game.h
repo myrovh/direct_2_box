@@ -108,7 +108,9 @@ public:
 
 	void roll_dice();
 	void new_round();
+	bool check_game_over();
 	int calculate_yahtzee_values(yahtzee_types value_to_return);
+	int calculate_final_score();
 	bool assign_yahtzee_values(yahtzee_types value_to_set);
 };
 

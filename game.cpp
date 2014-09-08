@@ -165,6 +165,18 @@ bool game::initialise_content()
 		D3DCOLOR_ARGB(255, 255, 255, 255), TRUE));
 	// END Font Rectangle for dice values display
 
+	// START Font Rectangle for game over display
+	// TODO build a struct to insert values into constructor
+	RECT game_over_position;
+	game_over_position.bottom = 200;
+	game_over_position.top = 0;
+	game_over_position.left = 300;
+	game_over_position.right = 100;
+	font_queue.push_back(new font_rectangle(game_over_position, DT_NOCLIP,
+		D3DCOLOR_ARGB(255, 255, 255, 255), TRUE));
+	font_queue[3]->set_invisible();
+	// END Font Rectangle for dice values display
+
 	return TRUE;
 }
 
@@ -196,6 +208,13 @@ void game::update(float timestamp)
 	// font_queue[2] = Score List
 	if(font_queue[2]->is_visible())
 	{
+		// START generate score inserts
+		if(game_variables.ones_score == -1)
+		{
+			
+		}
+		// END generate score inserts
+		// START print text and score inserts
 		font_output 
 			<< "Ones: " << calculate_yahtzee_values(ONES) << "\n"
 			<< "Twos: " << calculate_yahtzee_values(TWOS) << "\n"
@@ -212,6 +231,13 @@ void game::update(float timestamp)
 			<< "Yahtzee: " << calculate_yahtzee_values(YAHTZEE) << "\n"
 			<< "Chance: " << calculate_yahtzee_values(CHANCE) << "\n";
 		font_queue[2]->update(font_output.str());
+		// END print text and score inserts
+		font_output.str("");
+	}
+	// font_queue[3] = Game Over Score
+	if(font_queue[3]->is_visible())
+	{
+		font_output << "Game is Over. Final Score = " << calculate_final_score() << "\n";
 		font_output.str("");
 	}
 
@@ -222,108 +248,128 @@ void game::update(float timestamp)
 		PostQuitMessage(0);
 	}
 
-	if(input_manage->get_key_down('R'))
+	if(!game_variables.is_game_over)
 	{
-		if(game_variables.rolls_remaining > 0)
+		if(input_manage->get_key_down('R'))
 		{
-			// TODO currently rolls will count down even if a die does not accept a roll
-			roll_dice();
+			if(game_variables.rolls_remaining > 0)
+			{
+				// TODO currently rolls will count down even if a die does not accept a roll
+				roll_dice();
+			}
 		}
 	}
 
-	// TODO this is a bad solution
-	// might be worth implementing a map for storage or some way 
-	// to retrieve the object I want by name not queue location
-	// TODO CHANGE THIS TO A TOGGLE
-	if(TRUE)//game_variables.rolls_remaining < game_variables.max_rolls)
+	// START listen for command to lock dice
+	if(!game_variables.is_game_over)
 	{
-		if(input_manage->get_key_down('1'))
+		// TODO this is a bad solution
+		// might be worth implementing a map for storage or some way 
+		// to retrieve the object I want by name not queue location
+		// TODO CHANGE THIS TO A TOGGLE
+		if(TRUE)//game_variables.rolls_remaining < game_variables.max_rolls)
 		{
-			die* temp_pointer = (die*)object_queue[0];
-			temp_pointer->toggle_locked();
-		}
-		if(input_manage->get_key_down('2'))
-		{
-			die* temp_pointer = (die*)object_queue[1];
-			temp_pointer->toggle_locked();
-		}
-		if(input_manage->get_key_down('3'))
-		{
-			die* temp_pointer = (die*)object_queue[2];
-			temp_pointer->toggle_locked();
-		}
-		if(input_manage->get_key_down('4'))
-		{
-			die* temp_pointer = (die*)object_queue[3];
-			temp_pointer->toggle_locked();
-		}
-		if(input_manage->get_key_down('5'))
-		{
-			die* temp_pointer = (die*)object_queue[4];
-			temp_pointer->toggle_locked();
+			if(input_manage->get_key_down('1'))
+			{
+				die* temp_pointer = (die*)object_queue[0];
+				temp_pointer->toggle_locked();
+			}
+			if(input_manage->get_key_down('2'))
+			{
+				die* temp_pointer = (die*)object_queue[1];
+				temp_pointer->toggle_locked();
+			}
+			if(input_manage->get_key_down('3'))
+			{
+				die* temp_pointer = (die*)object_queue[2];
+				temp_pointer->toggle_locked();
+			}
+			if(input_manage->get_key_down('4'))
+			{
+				die* temp_pointer = (die*)object_queue[3];
+				temp_pointer->toggle_locked();
+			}
+			if(input_manage->get_key_down('5'))
+			{
+				die* temp_pointer = (die*)object_queue[4];
+				temp_pointer->toggle_locked();
+			}
 		}
 	}
+	// END listen for command to lock dice
 
 	//START set scores
 	//TODO can implement a notification that value is already assigned
-	if(!game_variables.is_score_for_round_set)
+	if(!game_variables.is_game_over)
 	{
-		if(input_manage->get_key_down('Z'))
+		if(!game_variables.is_score_for_round_set)
 		{
-			game_variables.is_score_for_round_set = assign_yahtzee_values(ONES);
-		}
-		if(input_manage->get_key_down('X'))
-		{
-			game_variables.is_score_for_round_set = assign_yahtzee_values(TWOS);
-		}
-		if(input_manage->get_key_down('C'))
-		{
-			game_variables.is_score_for_round_set = assign_yahtzee_values(THREES);
-		}
-		if(input_manage->get_key_down('V'))
-		{
-			game_variables.is_score_for_round_set = assign_yahtzee_values(FOURS);
-		}
-		if(input_manage->get_key_down('B'))
-		{
-			game_variables.is_score_for_round_set = assign_yahtzee_values(FIVES);
-		}
-		if(input_manage->get_key_down('N'))
-		{
-			game_variables.is_score_for_round_set = assign_yahtzee_values(SIXES);
-		}
-		if(input_manage->get_key_down('M'))
-		{
-			game_variables.is_score_for_round_set = assign_yahtzee_values(KIND_3);
-		}
-		if(input_manage->get_key_down('A'))
-		{
-			game_variables.is_score_for_round_set = assign_yahtzee_values(KIND_4);
-		}
-		if(input_manage->get_key_down('S'))
-		{
-			game_variables.is_score_for_round_set = assign_yahtzee_values(HOUSE);
-		}
-		if(input_manage->get_key_down('D'))
-		{
-			game_variables.is_score_for_round_set = assign_yahtzee_values(S_STRAIGHT);
-		}
-		if(input_manage->get_key_down('F'))
-		{
-			game_variables.is_score_for_round_set = assign_yahtzee_values(L_STRAIGHT);
-		}
-		if(input_manage->get_key_down('G'))
-		{
-			game_variables.is_score_for_round_set = assign_yahtzee_values(YAHTZEE);
-		}
-		if(input_manage->get_key_down('H'))
-		{
-			game_variables.is_score_for_round_set = assign_yahtzee_values(CHANCE);
+			if(input_manage->get_key_down('Z'))
+			{
+				game_variables.is_score_for_round_set = assign_yahtzee_values(ONES);
+			}
+			if(input_manage->get_key_down('X'))
+			{
+				game_variables.is_score_for_round_set = assign_yahtzee_values(TWOS);
+			}
+			if(input_manage->get_key_down('C'))
+			{
+				game_variables.is_score_for_round_set = assign_yahtzee_values(THREES);
+			}
+			if(input_manage->get_key_down('V'))
+			{
+				game_variables.is_score_for_round_set = assign_yahtzee_values(FOURS);
+			}
+			if(input_manage->get_key_down('B'))
+			{
+				game_variables.is_score_for_round_set = assign_yahtzee_values(FIVES);
+			}
+			if(input_manage->get_key_down('N'))
+			{
+				game_variables.is_score_for_round_set = assign_yahtzee_values(SIXES);
+			}
+			if(input_manage->get_key_down('M'))
+			{
+				game_variables.is_score_for_round_set = assign_yahtzee_values(KIND_3);
+			}
+			if(input_manage->get_key_down('A'))
+			{
+				game_variables.is_score_for_round_set = assign_yahtzee_values(KIND_4);
+			}
+			if(input_manage->get_key_down('S'))
+			{
+				game_variables.is_score_for_round_set = assign_yahtzee_values(HOUSE);
+			}
+			if(input_manage->get_key_down('D'))
+			{
+				game_variables.is_score_for_round_set = assign_yahtzee_values(S_STRAIGHT);
+			}
+			if(input_manage->get_key_down('F'))
+			{
+				game_variables.is_score_for_round_set = assign_yahtzee_values(L_STRAIGHT);
+			}
+			if(input_manage->get_key_down('G'))
+			{
+				game_variables.is_score_for_round_set = assign_yahtzee_values(YAHTZEE);
+			}
+			if(input_manage->get_key_down('H'))
+			{
+				game_variables.is_score_for_round_set = assign_yahtzee_values(CHANCE);
+			}
 		}
 	}
 	//END set scores
 
-	if(game_variables.is_score_for_round_set)
+	// START Check for game over
+	game_variables.is_game_over = check_game_over();
+	if(game_variables.is_game_over)
+	{
+		font_queue[3]->set_visible();
+		assign_yahtzee_values(BONUS);
+	}
+	// END Check for game over
+
+	if(game_variables.is_score_for_round_set && !game_variables.is_game_over)
 	{
 		new_round();
 	}
@@ -387,6 +433,85 @@ void game::roll_dice()
 		}
 	}
 	game_variables.rolls_remaining--;
+}
+
+bool game::check_game_over()
+{
+	bool any_scores_unset = FALSE;
+
+	//Check all vars
+	if(game_variables.ones_score == -1)
+	{
+		any_scores_unset = TRUE;
+	}
+	if(game_variables.twos_score == -1)
+	{
+		any_scores_unset = TRUE;
+	}
+	if(game_variables.threes_score == -1)
+	{
+		any_scores_unset = TRUE;
+	}
+	if(game_variables.fours_score == -1)
+	{
+		any_scores_unset = TRUE;
+	}
+	if(game_variables.fives_score == -1)
+	{
+		any_scores_unset = TRUE;
+	}
+	if(game_variables.sixes_score == -1)
+	{
+		any_scores_unset = TRUE;
+	}
+	if(game_variables.full_house_score == -1)
+	{
+		any_scores_unset = TRUE;
+	}
+	if(game_variables.small_straight_score == -1)
+	{
+		any_scores_unset = TRUE;
+	}
+	if(game_variables.large_straight_score == -1)
+	{
+		any_scores_unset = TRUE;
+	}
+	if(game_variables.yahtzee_score == -1)
+	{
+		any_scores_unset = TRUE;
+	}
+	if(game_variables.chance_score == -1)
+	{
+		any_scores_unset = TRUE;
+	}
+
+	if(any_scores_unset)
+	{
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+int game::calculate_final_score()
+{
+	int final_score = 0;
+
+	// TODO recalculates each draw of game over should only do this once
+	final_score += game_variables.ones_score;
+	final_score += game_variables.twos_score;
+	final_score += game_variables.threes_score;
+	final_score += game_variables.fours_score;
+	final_score += game_variables.fives_score;
+	final_score += game_variables.sixes_score;
+	final_score += game_variables.bonus_score;
+	final_score += game_variables.full_house_score;
+	final_score += game_variables.small_straight_score;
+	final_score += game_variables.large_straight_score;
+	final_score += game_variables.yahtzee_score;
+	final_score += game_variables.chance_score;
+
+	return final_score;
 }
 
 void game::new_round()
