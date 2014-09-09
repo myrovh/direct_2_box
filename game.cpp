@@ -7,8 +7,6 @@ game::game()
 	mesh_manager* mesh_manage = NULL;
 	input_manager* input_manage = NULL;
 	yahtzee_game game_variables; //Not quite sure on how to be instantiating structs
-	std::random_device rng_device;
-	std::mt19937 rng_engine(rng_device());
 }
 
 game::~game()
@@ -136,7 +134,7 @@ bool game::initialise_content()
 	// START Font Rectangle for Title Display
 	// TODO build a struct to insert values into constructor
 	RECT title_position;
-	title_position.bottom = 50;
+	title_position.bottom = 100;
 	title_position.top = 0;
 	title_position.left = 0;
 	title_position.right = 80;
@@ -160,7 +158,7 @@ bool game::initialise_content()
 	RECT score_position;
 	score_position.bottom = 480;
 	score_position.top = 0;
-	score_position.left = 460;
+	score_position.left = 430;
 	score_position.right = 640;
 	font_queue.push_back(new font_rectangle(score_position, DT_NOCLIP,
 		D3DCOLOR_ARGB(255, 255, 255, 255), TRUE));
@@ -188,7 +186,9 @@ void game::update(float timestamp)
 	if(font_queue[0]->is_visible())
 	{
 		font_output << " Yahtzee Round: " << game_variables.round_count
-			<< "\n Rolls Left: " << game_variables.rolls_remaining;
+			<< "\n Rolls Left: " << game_variables.rolls_remaining
+			<< "\n press R to roll"
+			<< "\n press 1-5 to lock dice";
 		font_queue[0]->update(font_output.str());
 		font_output.str("");
 	}
@@ -211,47 +211,47 @@ void game::update(float timestamp)
 	{
 		// START generate score inserts
 		if(game_variables.ones_score == -1) { 
-			font_output << "Ones: " << calculate_yahtzee_values(ONES) << " *\n"; }
-		else { font_output << "Ones: " << game_variables.ones_score << "\n"; }
+			font_output << "Ones (z): " << calculate_yahtzee_values(ONES) << " *\n"; }
+		else { font_output << "Ones (z): " << game_variables.ones_score << "\n"; }
 		if(game_variables.twos_score == -1) { 
-			font_output << "Twos: " << calculate_yahtzee_values(TWOS) << " *\n"; }
-		else { font_output << "Twos: " << game_variables.twos_score << "\n"; }
+			font_output << "Twos (x): " << calculate_yahtzee_values(TWOS) << " *\n"; }
+		else { font_output << "Twos (x): " << game_variables.twos_score << "\n"; }
 		if(game_variables.threes_score == -1) { 
-			font_output << "Threes: " << calculate_yahtzee_values(THREES) << " *\n"; }
-		else { font_output << "Threes: " << game_variables.threes_score << "\n"; }
+			font_output << "Threes (c): " << calculate_yahtzee_values(THREES) << " *\n"; }
+		else { font_output << "Threes (c): " << game_variables.threes_score << "\n"; }
 		if(game_variables.fours_score == -1) { 
-			font_output << "Fours: " << calculate_yahtzee_values(FOURS) << " *\n"; }
-		else { font_output << "Fours: " << game_variables.fours_score << "\n"; }
+			font_output << "Fours (v): " << calculate_yahtzee_values(FOURS) << " *\n"; }
+		else { font_output << "Fours (v): " << game_variables.fours_score << "\n"; }
 		if(game_variables.fives_score == -1) { 
-			font_output << "Fives: " << calculate_yahtzee_values(FIVES) << " *\n"; }
-		else { font_output << "Fives: " << game_variables.fives_score << "\n"; }
+			font_output << "Fives (b): " << calculate_yahtzee_values(FIVES) << " *\n"; }
+		else { font_output << "Fives (b): " << game_variables.fives_score << "\n"; }
 		if(game_variables.sixes_score == -1) { 
-			font_output << "Sixes: " << calculate_yahtzee_values(SIXES) << " *\n"; }
-		else { font_output << "Sixes: " << game_variables.sixes_score << "\n"; }
+			font_output << "Sixes (n): " << calculate_yahtzee_values(SIXES) << " *\n"; }
+		else { font_output << "Sixes (n): " << game_variables.sixes_score << "\n"; }
 		if(game_variables.bonus_score == -1) { 
 			font_output << "Bonus: " << calculate_yahtzee_values(BONUS) << " *\n"; }
 		else { font_output << "Bonus: " << game_variables.bonus_score << "\n"; }
 		if(game_variables.three_of_a_kind_score == -1) { 
-			font_output << "3 of a Kind : " << calculate_yahtzee_values(KIND_3) << " *\n"; }
-		else { font_output << "3 of a Kind: " << game_variables.three_of_a_kind_score << "\n"; }
+			font_output << "3 of a Kind (m): " << calculate_yahtzee_values(KIND_3) << " *\n"; }
+		else { font_output << "3 of a Kind (m): " << game_variables.three_of_a_kind_score << "\n"; }
 		if(game_variables.four_of_a_kind_score == -1) { 
-			font_output << "4 of a Kind : " << calculate_yahtzee_values(KIND_4) << " *\n"; }
-		else { font_output << "4 of a Kind: " << game_variables.four_of_a_kind_score << "\n"; }
+			font_output << "4 of a Kind (a): " << calculate_yahtzee_values(KIND_4) << " *\n"; }
+		else { font_output << "4 of a Kind (a): " << game_variables.four_of_a_kind_score << "\n"; }
 		if(game_variables.full_house_score == -1) { 
-			font_output << "Full House: " << calculate_yahtzee_values(HOUSE) << " *\n"; }
-		else { font_output << "Full House: " << game_variables.full_house_score << "\n"; }
+			font_output << "Full House (s): " << calculate_yahtzee_values(HOUSE) << " *\n"; }
+		else { font_output << "Full House (s): " << game_variables.full_house_score << "\n"; }
 		if(game_variables.small_straight_score == -1) { 
-			font_output << "Small Straight: " << calculate_yahtzee_values(S_STRAIGHT) << " *\n"; }
-		else { font_output << "Small Straight: " << game_variables.small_straight_score << "\n"; }
+			font_output << "Small Straight (d): " << calculate_yahtzee_values(S_STRAIGHT) << " *\n"; }
+		else { font_output << "Small Straight (d): " << game_variables.small_straight_score << "\n"; }
 		if(game_variables.large_straight_score == -1) { 
-			font_output << "Large Straight: " << calculate_yahtzee_values(L_STRAIGHT) << " *\n"; }
-		else { font_output << "Large Straight: " << game_variables.large_straight_score << "\n"; }
+			font_output << "Large Straight (f): " << calculate_yahtzee_values(L_STRAIGHT) << " *\n"; }
+		else { font_output << "Large Straight (f): " << game_variables.large_straight_score << "\n"; }
 		if(game_variables.yahtzee_score == -1) { 
-			font_output << "Yahtzee: " << calculate_yahtzee_values(YAHTZEE) << " *\n"; }
-		else { font_output << "Yahtzee: " << game_variables.yahtzee_score << "\n"; }
+			font_output << "Yahtzee (g): " << calculate_yahtzee_values(YAHTZEE) << " *\n"; }
+		else { font_output << "Yahtzee (g): " << game_variables.yahtzee_score << "\n"; }
 		if(game_variables.chance_score == -1) { 
-			font_output << "Chance: " << calculate_yahtzee_values(CHANCE) << " *\n"; }
-		else { font_output << "Chance: " << game_variables.chance_score << "\n"; }
+			font_output << "Chance (h): " << calculate_yahtzee_values(CHANCE) << " *\n"; }
+		else { font_output << "Chance (h): " << game_variables.chance_score << "\n"; }
 		// END generate score inserts
 		// START print text and score inserts
 		font_queue[2]->update(font_output.str());
@@ -405,6 +405,8 @@ void game::trace(const char * fmt, ...)
 
 void game::roll_dice()
 {
+	std::mt19937 rng_engine(std::chrono::system_clock::now().time_since_epoch().count());
+
 	for(unsigned int i = 0; i < object_queue.size(); i++)
 	{
 		if(object_queue[i]->get_object_type() == DIE)

@@ -16,6 +16,7 @@
 #include <list>
 #include <sstream> //font insertion
 #include <random>
+#include <chrono>
 
 enum yahtzee_types {
 	ONES, 
@@ -92,8 +93,6 @@ private:
 	camera_fixed* camera;
 	std::vector<object*> object_queue;
 	std::vector<font_rectangle*> font_queue;
-	std::random_device rng_device;
-	std::mt19937 rng_engine;
 	yahtzee_game game_variables;
 
 public:
