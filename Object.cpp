@@ -54,5 +54,5 @@ void Object::render(LPDIRECT3DDEVICE9 device)
 		device->SetTransform(D3DTS_WORLD, &world);
 
 		entity_mesh->render(device);
-	}	
+	}
 }

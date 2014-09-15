@@ -19,8 +19,12 @@ public:
 	~Renderer();
 
 	bool initialise(HWND window_instance, bool fullscreen);
-	LPDIRECT3DDEVICE9 get_device() { return direct3d_device; }
-	LPD3DXFONT get_font() { return direct3d_font; }
+	LPDIRECT3DDEVICE9 get_device() {
+		return direct3d_device;
+	}
+	LPD3DXFONT get_font() {
+		return direct3d_font;
+	}
 	void render(std::vector<Object*> object_queue, std::vector<Font_Block*> font_queue, Camera* camera);
 	void release();
 };

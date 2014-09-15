@@ -75,7 +75,6 @@ bool Renderer::initialise(HWND window_handler, bool fullscreen)
 	direct3d_device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	direct3d_device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 
-
 	if(FAILED(D3DXCreateFont(
 		direct3d_device,
 		24,
@@ -97,7 +96,7 @@ bool Renderer::initialise(HWND window_handler, bool fullscreen)
 	return TRUE;
 }
 
-void Renderer::render(std::vector<Object*> object_queue, 
+void Renderer::render(std::vector<Object*> object_queue,
 					  std::vector<Font_Block*> font_queue, Camera* camera)
 {
 	direct3d_device->SetTransform(D3DTS_VIEW, &camera->get_view());
@@ -105,7 +104,7 @@ void Renderer::render(std::vector<Object*> object_queue,
 
 	// Clear the screen to black.
 	direct3d_device->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-						D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+						   D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 
 	// Tell Direct 3D to start drawing.
 	if(SUCCEEDED(direct3d_device->BeginScene()))

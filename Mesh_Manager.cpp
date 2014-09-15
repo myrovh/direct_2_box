@@ -5,7 +5,6 @@ Mesh_Manager::Mesh_Manager(Texture_Manager* texture_manage)
 	this->texture_manage = texture_manage;
 }
 
-
 Mesh_Manager::~Mesh_Manager()
 {
 	release();

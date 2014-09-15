@@ -7,7 +7,6 @@ Texture::Texture()
 	filename = NULL;
 }
 
-
 Texture::~Texture()
 {
 	release();

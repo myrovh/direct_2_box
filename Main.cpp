@@ -123,7 +123,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				LARGE_INTEGER current_timer_count;
 				QueryPerformanceCounter(&current_timer_count);
 
-				float timestep = (current_timer_count.QuadPart - previous_timer_count.QuadPart) 
+				float timestep = (current_timer_count.QuadPart - previous_timer_count.QuadPart)
 					/ (float)frequency.QuadPart;
 
 				game_engine.update(timestep);

@@ -1,6 +1,5 @@
 #include "Mesh.h"
 
-
 Mesh::Mesh()
 {
 	reference_count = 0;
