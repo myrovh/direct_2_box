@@ -3,21 +3,21 @@
 #include <map>
 #include <string>
 #include <d3dx9.h>
-#include "mesh.h"
+#include "Mesh.h"
 
-class mesh_manager
+class Mesh_Manager
 {
 private:
-	texture_manager* texture_manage;
-	typedef std::map<std::string, mesh*> mesh_map;
+	Texture_Manager* texture_manage;
+	typedef std::map<std::string, Mesh*> mesh_map;
 	mesh_map mesh_queue;
 
 public:
-	mesh_manager(texture_manager* texture_manage);
-	~mesh_manager();
+	Mesh_Manager(Texture_Manager* texture_manage);
+	~Mesh_Manager();
 	bool load(LPDIRECT3DDEVICE9 device, const char* filename);
-	mesh* get_mesh(const char* filename);
-	void release_mesh(mesh* mesh);
+	Mesh* get_mesh(const char* filename);
+	void release_mesh(Mesh* mesh);
 	void release();
 };
 

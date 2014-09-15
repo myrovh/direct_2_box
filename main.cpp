@@ -1,6 +1,6 @@
-#include "game.h"
+#include "Game.h"
 
-input_manager* input_manage = NULL;
+Input_Manager* input_manage = NULL;
 
 LRESULT WINAPI WindowProcedure(HWND window_handler, UINT message_handle, WPARAM wParam, LPARAM lParam)
 {
@@ -44,7 +44,7 @@ LRESULT WINAPI WindowProcedure(HWND window_handler, UINT message_handle, WPARAM 
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	game game_engine;
+	Game game_engine;
 	MSG message_handle;
 
 	// {{{ START Window Creation
@@ -82,7 +82,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// }}} END Window Creation
 
 	bool ok = TRUE;
-	input_manage = new input_manager(window_handler);
+	input_manage = new Input_Manager(window_handler);
 	if(!game_engine.initialise(window_handler, FALSE, input_manage))
 	{
 		ok = FALSE;

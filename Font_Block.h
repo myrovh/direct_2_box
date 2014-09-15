@@ -3,7 +3,7 @@
 #include <d3dx9.h>
 #include <string>
 
-class font_rectangle
+class Font_Block
 {
 private:
 	RECT positon;
@@ -13,9 +13,9 @@ private:
 	bool show;
 
 public:
-	font_rectangle();
-	font_rectangle(RECT positiont, DWORD font_format, D3DCOLOR colour, bool show);
-	~font_rectangle() {}
+	Font_Block();
+	Font_Block(RECT positiont, DWORD font_format, D3DCOLOR colour, bool show);
+	~Font_Block() {}
 
 	void toggle_visibility();
 	void set_visible() { show = TRUE; }

@@ -1,6 +1,6 @@
-#include "camera_fixed.h"
+#include "Camera.h"
 
-camera_fixed::camera_fixed()
+Camera::Camera()
 {
 	position = D3DXVECTOR3(0, 0, 0);
 	look_at_target = D3DXVECTOR3(0, 0, 0);
@@ -11,7 +11,7 @@ camera_fixed::camera_fixed()
 	far_plane = 12.0f;
 }
 
-camera_fixed::camera_fixed(D3DXVECTOR3 position, D3DXVECTOR3 look_at_target, D3DXVECTOR3 up_direction,
+Camera::Camera(D3DXVECTOR3 position, D3DXVECTOR3 look_at_target, D3DXVECTOR3 up_direction,
 			 float field_of_fiew, float aspect_ratio, float near_plane, float far_plane)
 {
 	this->position = position;
@@ -23,14 +23,14 @@ camera_fixed::camera_fixed(D3DXVECTOR3 position, D3DXVECTOR3 look_at_target, D3D
 	this->far_plane = far_plane;
 }
 
-D3DXMATRIX camera_fixed::get_view()
+D3DXMATRIX Camera::get_view()
 {
 	D3DXMATRIX view;
 	D3DXMatrixLookAtLH(&view, &position, &look_at_target, &up_direction);
 	return view;
 }
 
-D3DXMATRIX camera_fixed::get_projection()
+D3DXMATRIX Camera::get_projection()
 {
 	D3DXMATRIX projection;
 	D3DXMatrixPerspectiveFovLH(&projection, field_of_view, aspect_ratio, near_plane, far_plane);

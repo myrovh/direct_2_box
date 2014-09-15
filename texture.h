@@ -2,7 +2,7 @@
 #define TEXTURE_H
 #include <d3dx9.h>
 
-class texture
+class Texture
 {
 private:
 	int reference_count;
@@ -12,8 +12,8 @@ private:
 	void release();
 
 protected:
-	texture();
-	~texture();
+	Texture();
+	~Texture();
 	void add_reference() {
 		reference_count++;
 	}
@@ -33,7 +33,7 @@ public:
 		return filename;
 	}
 
-	friend class texture_manager;
+	friend class Texture_Manager;
 };
 
 #endif

@@ -8,7 +8,7 @@
 #define NUMBER_OF_MOUSE_BUTTONS 3
 #define NUMBER_OF_KEYS 256
 
-class input_manager
+class Input_Manager
 {
 private:
 	HWND window_handle;
@@ -21,7 +21,7 @@ private:
 	int mouse_y_location;
 
 public:
-	input_manager(HWND window_handle);
+	Input_Manager(HWND window_handle);
 
 	void set_key_down(UINT key_code);
 	void set_key_up(UINT key_code);

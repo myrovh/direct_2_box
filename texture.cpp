@@ -1,6 +1,6 @@
-#include "texture.h"
+#include "Texture.h"
 
-texture::texture()
+Texture::Texture()
 {
 	reference_count = 0;
 	texture_storage = NULL;
@@ -8,12 +8,12 @@ texture::texture()
 }
 
 
-texture::~texture()
+Texture::~Texture()
 {
 	release();
 }
 
-bool texture::load(LPDIRECT3DDEVICE9 device, const char* filename)
+bool Texture::load(LPDIRECT3DDEVICE9 device, const char* filename)
 {
 	if(FAILED(D3DXCreateTextureFromFile(device, filename, &texture_storage)))
 	{
@@ -24,7 +24,7 @@ bool texture::load(LPDIRECT3DDEVICE9 device, const char* filename)
 	return TRUE;
 }
 
-void texture::release()
+void Texture::release()
 {
 	if(texture_storage != NULL)
 	{

@@ -1,19 +1,19 @@
-#include "texture_manager.h"
+#include "Texture_Manager.h"
 
 
-texture_manager::texture_manager()
+Texture_Manager::Texture_Manager()
 {
 }
 
 
-texture_manager::~texture_manager()
+Texture_Manager::~Texture_Manager()
 {
 	release();
 }
 
-bool texture_manager::load(LPDIRECT3DDEVICE9 device, const char* filename)
+bool Texture_Manager::load(LPDIRECT3DDEVICE9 device, const char* filename)
 {
-	texture* temp_texture = NULL;
+	Texture* temp_texture = NULL;
 
 	if(filename == 0)
 	{
@@ -25,7 +25,7 @@ bool texture_manager::load(LPDIRECT3DDEVICE9 device, const char* filename)
 		return TRUE;
 	}
 
-	temp_texture = new texture();
+	temp_texture = new Texture();
 
 	if(temp_texture->load(device, filename))
 	{
@@ -42,7 +42,7 @@ bool texture_manager::load(LPDIRECT3DDEVICE9 device, const char* filename)
 	}
 }
 
-texture* texture_manager::get_texture(const char* filename)
+Texture* Texture_Manager::get_texture(const char* filename)
 {
 	std::string filename_string = filename;
 
@@ -56,7 +56,7 @@ texture* texture_manager::get_texture(const char* filename)
 	return NULL;
 }
 
-void texture_manager::release_texture(texture* texture)
+void Texture_Manager::release_texture(Texture* texture)
 {
 	if(texture)
 	{
@@ -75,7 +75,7 @@ void texture_manager::release_texture(texture* texture)
 	}
 }
 
-void texture_manager::release()
+void Texture_Manager::release()
 {
 	if(!texture_queue.empty())
 	{

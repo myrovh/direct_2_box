@@ -1,7 +1,7 @@
-#include "mesh.h"
+#include "Mesh.h"
 
 
-mesh::mesh()
+Mesh::Mesh()
 {
 	reference_count = 0;
 	material_buffer = NULL;
@@ -12,7 +12,7 @@ mesh::mesh()
 	filename = NULL;
 }
 
-bool mesh::load(LPDIRECT3DDEVICE9 device, const char* filename, texture_manager* texture_manage)
+bool Mesh::load(LPDIRECT3DDEVICE9 device, const char* filename, Texture_Manager* texture_manage)
 {
 	if(FAILED(D3DXLoadMeshFromX(filename, D3DXMESH_SYSTEMMEM, device, NULL, &material_buffer, NULL, &number_of_materials, &mesh_storage)))
 	{
@@ -21,7 +21,7 @@ bool mesh::load(LPDIRECT3DDEVICE9 device, const char* filename, texture_manager*
 
 	this->filename = filename;
 	materials = new D3DMATERIAL9[number_of_materials];
-	mesh_textures = new texture*[number_of_materials];
+	mesh_textures = new Texture*[number_of_materials];
 	D3DXMATERIAL* loaded_materials = (D3DXMATERIAL*)material_buffer->GetBufferPointer();
 
 	for(DWORD i = 0; i < number_of_materials; i++)
@@ -42,13 +42,13 @@ bool mesh::load(LPDIRECT3DDEVICE9 device, const char* filename, texture_manager*
 	return TRUE;
 }
 
-void mesh::release(texture_manager* texture_manage)
+void Mesh::release(Texture_Manager* texture_manage)
 {
 	for(DWORD i = 0; i < number_of_materials; i++)
 	{
 		if(mesh_textures[i] != NULL)
 		{
-			texture* texture = mesh_textures[i];
+			Texture* texture = mesh_textures[i];
 			texture_manage->release_texture(texture);
 			mesh_textures[i] = NULL;
 		}
@@ -80,7 +80,7 @@ void mesh::release(texture_manager* texture_manage)
 	}
 }
 
-void mesh::render(LPDIRECT3DDEVICE9 device)
+void Mesh::render(LPDIRECT3DDEVICE9 device)
 {
 	for(DWORD i = 0; i < number_of_materials; i++)
 	{

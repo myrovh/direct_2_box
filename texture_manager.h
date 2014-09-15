@@ -4,20 +4,21 @@
 #include <d3dx9.h>
 #include <map>
 #include <string>
-#include "texture.h"
 
-class texture_manager
+#include "Texture.h"
+
+class Texture_Manager
 {
 private:
-	typedef std::map<std::string, texture*> texture_map;
+	typedef std::map<std::string, Texture*> texture_map;
 	texture_map texture_queue;
 
 public:
-	texture_manager();
-	~texture_manager();
+	Texture_Manager();
+	~Texture_Manager();
 	bool load(LPDIRECT3DDEVICE9 device, const char* filename);
-	texture* get_texture(const char* filename);
-	void release_texture(texture* texture);
+	Texture* get_texture(const char* filename);
+	void release_texture(Texture* texture);
 	void release();
 };
 

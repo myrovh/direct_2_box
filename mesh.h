@@ -1,9 +1,9 @@
 #ifndef MESH_H
 #define MESH_H
 #include <d3dx9.h>
-#include "texture_manager.h"
+#include "Texture_Manager.h"
 
-class mesh
+class Mesh
 {
 private:
 	int reference_count;
@@ -11,14 +11,14 @@ private:
 	LPD3DXMESH mesh_storage;
 	DWORD number_of_materials;
 	D3DMATERIAL9* materials;
-	texture** mesh_textures;
+	Texture** mesh_textures;
 	const char* filename;
 
-	void release(texture_manager* texture_manage);
+	void release(Texture_Manager* texture_manage);
 
 protected:
-	mesh();
-	~mesh() {};
+	Mesh();
+	~Mesh() {};
 
 	void add_reference()
 	{
@@ -34,7 +34,7 @@ protected:
 	}
 
 public:
-	bool load(LPDIRECT3DDEVICE9 device, const char* filename, texture_manager* texture_manage);
+	bool load(LPDIRECT3DDEVICE9 device, const char* filename, Texture_Manager* texture_manage);
 
 	const char* get_filename()
 	{
@@ -48,14 +48,14 @@ public:
 	{
 		return &materials[index];
 	}
-	texture* get_mesh_texture(int index)
+	Texture* get_mesh_texture(int index)
 	{
 		return mesh_textures[index];
 	}
 
 	void render(LPDIRECT3DDEVICE9 device);
 
-	friend class mesh_manager;
+	friend class Mesh_Manager;
 };
 
 #endif

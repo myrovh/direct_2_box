@@ -1,6 +1,6 @@
-#include "object.h"
+#include "Object.h"
 
-object::object()
+Object::Object()
 {
 	entity_mesh = NULL;
 	x_rotation = 0.0f;
@@ -9,7 +9,7 @@ object::object()
 	scale_factor = 1.0f;
 	entity_type = NONE;
 }
-object::object(mesh* model, D3DXVECTOR3 position, float x_rotation, float y_rotation,
+Object::Object(Mesh* model, D3DXVECTOR3 position, float x_rotation, float y_rotation,
 			   float z_rotation, float scale_factor)
 {
 	entity_mesh = model;
@@ -20,11 +20,11 @@ object::object(mesh* model, D3DXVECTOR3 position, float x_rotation, float y_rota
 	this->scale_factor = scale_factor;
 }
 
-object::~object()
+Object::~Object()
 {
 }
 
-void object::release(mesh_manager* mesh_manage)
+void Object::release(Mesh_Manager* mesh_manage)
 {
 	if(entity_mesh)
 	{
@@ -33,7 +33,7 @@ void object::release(mesh_manager* mesh_manage)
 	}
 }
 
-void object::render(LPDIRECT3DDEVICE9 device)
+void Object::render(LPDIRECT3DDEVICE9 device)
 {
 	//This method is in charge of creating the matrix needed to draw the model
 	//in the correct position and with to correct rotations and scale.

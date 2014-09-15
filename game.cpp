@@ -1,14 +1,14 @@
-#include "game.h"
+#include "Game.h"
 
-game::game()
+Game::Game()
 {
-	direct3d* direct3d_manage = NULL;
-	texture_manager* texture_manage = NULL;
-	mesh_manager* mesh_manage = NULL;
-	input_manager* input_manage = NULL;
+	Renderer* direct3d_manage = NULL;
+	Texture_Manager* texture_manage = NULL;
+	Mesh_Manager* mesh_manage = NULL;
+	Input_Manager* input_manage = NULL;
 }
 
-game::~game()
+Game::~Game()
 {
 	for(unsigned int i = 0; i < object_queue.size(); i++)
 	{
@@ -40,30 +40,30 @@ game::~game()
 	}
 }
 
-bool game::initialise(HWND window_handler, bool fullscreen, input_manager* input)
+bool Game::initialise(HWND window_handler, bool fullscreen, Input_Manager* input)
 {
 	input_manage = input;
 
-	direct3d_manage = new direct3d();
+	direct3d_manage = new Renderer();
 	if(!direct3d_manage->initialise(window_handler, fullscreen))
 	{
 		return FALSE;
 	}
 
-	texture_manage = new texture_manager();
-	mesh_manage = new mesh_manager(texture_manage);
+	texture_manage = new Texture_Manager();
+	mesh_manage = new Mesh_Manager(texture_manage);
 
 	return TRUE;
 }
 
-bool game::initialise_content()
+bool Game::initialise_content()
 {
-	camera = new camera_fixed();
+	camera = new Camera();
 
 	return TRUE;
 }
 
-void game::update(float timestamp)
+void Game::update(float timestamp)
 {
 	input_manage->begin_update();
 
@@ -80,12 +80,12 @@ void game::update(float timestamp)
 	input_manage->end_update();
 }
 
-void game::render()
+void Game::render()
 {
 	direct3d_manage->render(object_queue, font_queue, camera);
 }
 
-void game::trace(const char * fmt, ...)
+void Game::trace(const char * fmt, ...)
 {
 	char buffer[8192];
 	va_list args;

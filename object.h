@@ -2,15 +2,15 @@
 #define ENTITY_H
 
 #include <d3dx9.h>
-#include "mesh_manager.h"
+#include "Mesh_Manager.h"
 
 enum object_type {NONE, DIE};
 
-class object
+class Object
 {
 protected:
 	D3DXVECTOR3 positon;
-	mesh* entity_mesh;
+	Mesh* entity_mesh;
 	float x_rotation;
 	float y_rotation;
 	float z_rotation;
@@ -18,11 +18,11 @@ protected:
 	object_type entity_type;
 
 public:
-	object();
-	object(mesh* model, D3DXVECTOR3 position, float x_rotation, float y_rotation,
+	Object();
+	Object(Mesh* model, D3DXVECTOR3 position, float x_rotation, float y_rotation,
 		   float z_rotation, float scale_factor);
-	virtual ~object();
-	void release(mesh_manager* mesh_manage);
+	virtual ~Object();
+	void release(Mesh_Manager* mesh_manage);
 
 	virtual object_type get_object_type() {return entity_type;}
 
@@ -31,6 +31,6 @@ public:
 };
 
 // Create the bounding box inside here
-// using two points dynamically generated or a bounding sphere using centre point and a radius
+// using two points dynamically generated or a bounding sphere using center point and a radius
 // x, y, z min and max for bounding box
 #endif

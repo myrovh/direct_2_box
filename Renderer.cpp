@@ -1,18 +1,18 @@
-#include "direct3d.h"
+#include "Renderer.h"
 
-direct3d::direct3d()
+Renderer::Renderer()
 {
 	direct3d_device = NULL;
 	direct3d_object = NULL;
 	direct3d_font = NULL;
 }
 
-direct3d::~direct3d()
+Renderer::~Renderer()
 {
 	release();
 }
 
-bool direct3d::initialise(HWND window_handler, bool fullscreen)
+bool Renderer::initialise(HWND window_handler, bool fullscreen)
 {
 	D3DDISPLAYMODE DisplayMode;
 	D3DPRESENT_PARAMETERS present_parameters;
@@ -97,8 +97,8 @@ bool direct3d::initialise(HWND window_handler, bool fullscreen)
 	return TRUE;
 }
 
-void direct3d::render(std::vector<object*> object_queue, 
-					  std::vector<font_rectangle*> font_queue, camera_fixed* camera)
+void Renderer::render(std::vector<Object*> object_queue, 
+					  std::vector<Font_Block*> font_queue, Camera* camera)
 {
 	direct3d_device->SetTransform(D3DTS_VIEW, &camera->get_view());
 	direct3d_device->SetTransform(D3DTS_PROJECTION, &camera->get_projection());
@@ -126,7 +126,7 @@ void direct3d::render(std::vector<object*> object_queue,
 	direct3d_device->Present(NULL, NULL, NULL, NULL);
 }
 
-void direct3d::release()
+void Renderer::release()
 {
 	if(direct3d_device)
 	{

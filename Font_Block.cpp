@@ -1,6 +1,6 @@
-#include "font_rectangle.h"
+#include "Font_Block.h"
 
-font_rectangle::font_rectangle()
+Font_Block::Font_Block()
 {
 	positon.bottom = 0;
 	positon.top = 0;
@@ -12,7 +12,7 @@ font_rectangle::font_rectangle()
 	show = FALSE;
 }
 
-font_rectangle::font_rectangle(RECT position, DWORD font_format, D3DCOLOR colour, bool show)
+Font_Block::Font_Block(RECT position, DWORD font_format, D3DCOLOR colour, bool show)
 {
 	this->positon = position;
 	this->font_format = font_format;
@@ -21,12 +21,12 @@ font_rectangle::font_rectangle(RECT position, DWORD font_format, D3DCOLOR colour
 	text = "";
 }
 
-void font_rectangle::update(std::string text)
+void Font_Block::update(std::string text)
 {
 	this->text = text;
 }
 
-void font_rectangle::render(LPD3DXFONT font)
+void Font_Block::render(LPD3DXFONT font)
 {
 	if(show)
 	{
@@ -34,7 +34,7 @@ void font_rectangle::render(LPD3DXFONT font)
 	}
 }
 
-void font_rectangle::toggle_visibility()
+void Font_Block::toggle_visibility()
 {
 	if(show == TRUE)
 	{
