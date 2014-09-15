@@ -6,7 +6,7 @@
 
 enum object_type
 {
-	NONE, DIE
+	NONE
 };
 
 class Object

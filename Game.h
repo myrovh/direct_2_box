@@ -18,7 +18,7 @@
 class Game
 {
 private:
-	Renderer* direct3d_manage;
+	Renderer* renderer;
 	Input_Manager* input_manage;
 	Texture_Manager* texture_manage;
 	Mesh_Manager* mesh_manage;

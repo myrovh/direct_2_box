@@ -2,10 +2,10 @@
 
 Game::Game()
 {
-	Renderer* direct3d_manage = NULL;
-	Texture_Manager* texture_manage = NULL;
-	Mesh_Manager* mesh_manage = NULL;
-	Input_Manager* input_manage = NULL;
+	renderer = NULL;
+	texture_manage = NULL;
+	mesh_manage = NULL;
+	input_manage = NULL;
 }
 
 Game::~Game()
@@ -15,10 +15,10 @@ Game::~Game()
 		object_queue[i]->release(mesh_manage);
 	}
 
-	if(direct3d_manage != NULL)
+	if(renderer != NULL)
 	{
-		delete direct3d_manage;
-		direct3d_manage = NULL;
+		delete renderer;
+		renderer = NULL;
 	}
 
 	if(mesh_manage != NULL)
@@ -44,8 +44,8 @@ bool Game::initialise(HWND window_handler, bool fullscreen, Input_Manager* input
 {
 	input_manage = input;
 
-	direct3d_manage = new Renderer();
-	if(!direct3d_manage->initialise(window_handler, fullscreen))
+	renderer = new Renderer();
+	if(!renderer->initialise(window_handler, fullscreen))
 	{
 		return FALSE;
 	}
@@ -82,7 +82,7 @@ void Game::update(float timestamp)
 
 void Game::render()
 {
-	direct3d_manage->render(object_queue, font_queue, camera);
+	renderer->render(object_queue, font_queue, camera);
 }
 
 void Game::trace(const char * fmt, ...)
