@@ -110,12 +110,12 @@ void Renderer::render(std::vector<Object*> object_queue,
 	// Tell Direct 3D to start drawing.
 	if(SUCCEEDED(direct3d_device->BeginScene()))
 	{
-		for(int i = 0; i < object_queue.size(); i++)
+		for(size_t i = 0; i < object_queue.size(); i++)
 		{
 			object_queue[i]->render(direct3d_device);
 		}
 
-		for(int i = 0; i < font_queue.size(); i++)
+		for(size_t i = 0; i < font_queue.size(); i++)
 		{
 			font_queue[i]->render(direct3d_font);
 		}
