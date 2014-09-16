@@ -1,7 +1,8 @@
 #include "Button.h"
 
-Button::Button(Texture* texture, LPD3DXFONT font, std::string text, int width, int height, 
-			   D3DXVECTOR3 positon, void(*action)())
+Button::Button(Game* game, Texture* texture, LPD3DXFONT font, 
+			   std::string text, int width, int height, 
+			   D3DXVECTOR3 positon, game_function_pointer action)
 {
 	//Assign given parameters
 	this->texture = texture;
@@ -10,6 +11,7 @@ Button::Button(Texture* texture, LPD3DXFONT font, std::string text, int width, i
 	this->height = height;
 	this->position = positon;
 	this->on_click_action = action;
+	this->m_gameObject = game;
 
 	//Sets texture window to show the top half of the texture
 	texture_window.top = 0;
@@ -57,7 +59,7 @@ void Button::update(int mouse_x, int mouse_y, bool mouse_button)
 		texture_window.bottom = height * 2;
 		if(mouse_button)
 		{
-			on_click_action();
+			(m_gameObject->*on_click_action)(40);
 		}
 	} 
 	else
