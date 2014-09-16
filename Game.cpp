@@ -72,9 +72,15 @@ void Game::update(float timestamp)
 		PostQuitMessage(0);
 	}
 
-	for(unsigned int i = 0; i < object_queue.size(); i++)
+	for(size_t i = 0; i < object_queue.size(); i++)
 	{
 		object_queue[i]->update(timestamp);
+	}
+
+	for(size_t i = 0; i < button_queue.size(); i++)
+	{
+		button_queue[i]->update(input_manage->get_mouse_x(), input_manage->get_mouse_y(),
+								input_manage->get_mouse_down(LEFT_MOUSE));
 	}
 
 	input_manage->end_update();
@@ -82,7 +88,7 @@ void Game::update(float timestamp)
 
 void Game::render()
 {
-	renderer->render(object_queue, font_queue, camera);
+	renderer->render(object_queue, button_queue, font_queue, camera);
 }
 
 void Game::trace(const char * fmt, ...)
