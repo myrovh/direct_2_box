@@ -60,16 +60,61 @@ bool Game::initialise_content()
 {
 	camera = new Camera();
 
+	//START Button creation and initialization
+	texture_manage->load(renderer->get_device(), "assets/Button.png");
+
+	button_queue.push_back(new Button(this, texture_manage->get_texture("assets/Button.png"), 
+		renderer->get_font(), "test", 128, 64, D3DXVECTOR3(320, 240, 0), &Game::action));
+
+	for(size_t i = 0; i < button_queue.size(); i++)
+	{
+		if(!button_queue[i]->initialise_button(renderer->get_device()))
+		{
+			return FALSE;
+		}
+	}
+	//END Button creation and initialization
+
+	// START Text box for mouse coordinates
+	RECT title_position;
+	title_position.bottom = 100;
+	title_position.top = 0;
+	title_position.left = 0;
+	title_position.right = 80;
+	font_queue.push_back(new Font_Block(title_position, DT_LEFT | DT_NOCLIP | DT_VCENTER,
+		D3DCOLOR_ARGB(255, 255, 255, 255), TRUE));
+	// END Text box for mouse coordinates
+
 	return TRUE;
+}
+
+void Game::action(int value)
+{
+	trace("Hi!");
 }
 
 void Game::update(float timestamp)
 {
 	input_manage->begin_update();
 
+	std::stringstream font_output;
+	if(font_queue[0]->is_visible())
+	{
+		font_output << "X " << input_manage->get_mouse_x() << "\n"
+					<< "Y " << input_manage->get_mouse_y() << "\n";
+		font_queue[0]->update(font_output.str());
+		font_output.str("");
+	}
+
 	if(input_manage->get_key_down(VK_ESCAPE))
 	{
 		PostQuitMessage(0);
+	}
+
+	for(unsigned int i = 0; i < button_queue.size(); i++)
+	{
+		button_queue[i]->update(input_manage->get_mouse_x(), input_manage->get_mouse_y(), 
+								input_manage->get_mouse_down(0));
 	}
 
 	for(unsigned int i = 0; i < object_queue.size(); i++)
@@ -82,7 +127,7 @@ void Game::update(float timestamp)
 
 void Game::render()
 {
-	renderer->render(object_queue, font_queue, camera);
+	renderer->render(object_queue, button_queue, font_queue, camera);
 }
 
 void Game::trace(const char * fmt, ...)

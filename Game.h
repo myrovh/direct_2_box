@@ -37,6 +37,7 @@ public:
 	void update(float timestep);
 	void render();
 	void trace(const char * fmt, ...);
+	void action(int value);
 };
 
 #endif
