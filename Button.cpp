@@ -7,6 +7,7 @@ Button::Button(Game* game, Texture* texture, LPD3DXFONT font,
 	//Assign given parameters
 	this->texture = texture;
 	this->font = font;
+	this->text = text;
 	this->width = width;
 	this->height = height;
 	this->position = positon;
