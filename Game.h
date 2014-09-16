@@ -13,7 +13,7 @@
 #include "Object.h"
 #include "Renderer.h"
 #include "Camera.h"
-#include "Font_Block.h"
+#include "Text.h"
 #include "Button.h"
 
 class Game
@@ -25,7 +25,7 @@ private:
 	Mesh_Manager* mesh_manage;
 	Camera* camera;
 	std::vector<Object*> object_queue;
-	std::vector<Font_Block*> font_queue;
+	std::vector<Text*> text_queue;
 	std::vector<Button*> button_queue;
 
 public:

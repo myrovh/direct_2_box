@@ -88,7 +88,7 @@ void Game::update(float timestamp)
 
 void Game::render()
 {
-	renderer->render(object_queue, button_queue, font_queue, camera);
+	renderer->render(object_queue, button_queue, text_queue, camera);
 }
 
 void Game::trace(const char * fmt, ...)
