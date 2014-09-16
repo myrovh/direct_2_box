@@ -21,9 +21,9 @@ Button::Button(Game* game, Texture* texture, LPD3DXFONT font,
 
 	//Sets border of button based of positon vector
 	border.top = positon.y - height / 2;
-	border.bottom = positon.y - height / 2;
+	border.bottom = positon.y + height / 2;
 	border.left = positon.x - width / 2;
-	border.right = positon.x - width / 2;
+	border.right = positon.x + width / 2;
 
 	//Sets center of button at half the width and height
 	center.x = width / 2;
