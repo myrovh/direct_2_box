@@ -14,6 +14,7 @@
 #include "Renderer.h"
 #include "Camera.h"
 #include "Font_Block.h"
+#include "Button.h"
 
 class Game
 {
@@ -25,6 +26,7 @@ private:
 	Camera* camera;
 	std::vector<Object*> object_queue;
 	std::vector<Font_Block*> font_queue;
+	std::vector<Button*> button_queue;
 
 public:
 	Game();
