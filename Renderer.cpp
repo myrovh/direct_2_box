@@ -97,6 +97,7 @@ bool Renderer::initialise(HWND window_handler, bool fullscreen)
 }
 
 void Renderer::render(std::vector<Object*> object_queue,
+					  std::vector<Button*> button_queue,
 					  std::vector<Font_Block*> font_queue, Camera* camera)
 {
 	direct3d_device->SetTransform(D3DTS_VIEW, &camera->get_view());
@@ -117,6 +118,11 @@ void Renderer::render(std::vector<Object*> object_queue,
 		for(size_t i = 0; i < font_queue.size(); i++)
 		{
 			font_queue[i]->render(direct3d_font);
+		}
+
+		for(size_t i = 0; i < button_queue.size(); i++)
+		{
+			button_queue[i]->render();
 		}
 
 		direct3d_device->EndScene();
