@@ -1,6 +1,6 @@
-#include "Font_Block.h"
+#include "Text.h"
 
-Font_Block::Font_Block()
+Text::Text()
 {
 	positon.bottom = 0;
 	positon.top = 0;
@@ -12,7 +12,7 @@ Font_Block::Font_Block()
 	show = FALSE;
 }
 
-Font_Block::Font_Block(RECT position, DWORD font_format, D3DCOLOR colour, bool show)
+Text::Text(RECT position, DWORD font_format, D3DCOLOR colour, bool show)
 {
 	this->positon = position;
 	this->font_format = font_format;
@@ -21,12 +21,12 @@ Font_Block::Font_Block(RECT position, DWORD font_format, D3DCOLOR colour, bool s
 	text = "";
 }
 
-void Font_Block::update(std::string text)
+void Text::update(std::string text)
 {
 	this->text = text;
 }
 
-void Font_Block::render(LPD3DXFONT font)
+void Text::render(LPD3DXFONT font)
 {
 	if(show)
 	{
@@ -34,7 +34,7 @@ void Font_Block::render(LPD3DXFONT font)
 	}
 }
 
-void Font_Block::toggle_visibility()
+void Text::toggle_visibility()
 {
 	if(show == TRUE)
 	{

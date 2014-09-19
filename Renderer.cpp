@@ -98,7 +98,7 @@ bool Renderer::initialise(HWND window_handler, bool fullscreen)
 
 void Renderer::render(std::vector<Object*> object_queue,
 					  std::vector<Button*> button_queue,
-					  std::vector<Font_Block*> font_queue, Camera* camera)
+					  std::vector<Text*> font_queue, Camera* camera)
 {
 	direct3d_device->SetTransform(D3DTS_VIEW, &camera->get_view());
 	direct3d_device->SetTransform(D3DTS_PROJECTION, &camera->get_projection());
