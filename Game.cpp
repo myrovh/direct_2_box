@@ -81,7 +81,7 @@ bool Game::initialise_content()
 	title_position.top = 0;
 	title_position.left = 0;
 	title_position.right = 80;
-	font_queue.push_back(new Font_Block(title_position, DT_LEFT | DT_NOCLIP | DT_VCENTER,
+	text_queue.push_back(new Text(title_position, DT_LEFT | DT_NOCLIP | DT_VCENTER,
 		D3DCOLOR_ARGB(255, 255, 255, 255), TRUE));
 	// END Text box for mouse coordinates
 
@@ -97,30 +97,29 @@ void Game::update(float timestamp)
 {
 	input_manage->begin_update();
 
+	//Update text[0]
 	std::stringstream font_output;
-	if(font_queue[0]->is_visible())
+	if(text_queue[0]->is_visible())
 	{
 		font_output << "X " << input_manage->get_mouse_x() << "\n"
 					<< "Y " << input_manage->get_mouse_y() << "\n";
-		font_queue[0]->update(font_output.str());
+		text_queue[0]->update(font_output.str());
 		font_output.str("");
 	}
 
+	//Action on Esc pressed
 	if(input_manage->get_key_down(VK_ESCAPE))
 	{
 		PostQuitMessage(0);
 	}
 
-	for(unsigned int i = 0; i < button_queue.size(); i++)
-	{
-		button_queue[i]->update(input_manage->get_mouse_x(), input_manage->get_mouse_y(), 
-								input_manage->get_mouse_down(0));
-	}
-
+	//Update objects
+	for(size_t i = 0; i < object_queue.size(); i++)
 	{
 		object_queue[i]->update(timestamp);
 	}
 
+	//Update buttons
 	for(size_t i = 0; i < button_queue.size(); i++)
 	{
 		button_queue[i]->update(input_manage->get_mouse_x(), input_manage->get_mouse_y(),
