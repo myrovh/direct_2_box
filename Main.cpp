@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "../Game.h"
 #include "Window.h"
 
 Input_Manager* input_manage = NULL;
