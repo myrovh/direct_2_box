@@ -5,6 +5,8 @@ Renderer::Renderer()
 	direct3d_device = NULL;
 	direct3d_object = NULL;
 	direct3d_font = NULL;
+	width = 0;
+	height = 0;
 }
 
 Renderer::~Renderer()
@@ -12,7 +14,7 @@ Renderer::~Renderer()
 	release();
 }
 
-bool Renderer::initialise(HWND window_handler, bool fullscreen)
+bool Renderer::initialise(HWND window_handler, UINT width, UINT height, bool fullscreen)
 {
 	D3DDISPLAYMODE DisplayMode;
 	D3DPRESENT_PARAMETERS present_parameters;
@@ -48,7 +50,16 @@ bool Renderer::initialise(HWND window_handler, bool fullscreen)
 		VertexProcessing |= D3DCREATE_SOFTWARE_VERTEXPROCESSING;
 	}
 
-	present_parameters.Windowed = TRUE;
+	if(fullscreen)
+	{
+		//not implemented
+	}
+	else
+	{
+		this->width = width;
+		this->height = height;
+		present_parameters.Windowed = TRUE;
+	}
 	present_parameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	present_parameters.BackBufferFormat = DisplayMode.Format;
 	present_parameters.BackBufferCount = 1;
@@ -90,7 +101,7 @@ bool Renderer::initialise(HWND window_handler, bool fullscreen)
 		&direct3d_font
 		)))
 	{
-		return false;
+		return FALSE;
 	}
 
 	return TRUE;

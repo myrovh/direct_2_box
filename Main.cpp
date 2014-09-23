@@ -1,4 +1,5 @@
 #include "../Game.h"
+#include "Renderer.h"
 #include "Window.h"
 
 Input_Manager* input_manage = NULL;
@@ -47,12 +48,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	Window window(hInstance, &WindowProcedure, 1024, 768, "Test Engine", "Test Engine");
 	input_manage = new Input_Manager(window.get_handle());
+	Renderer renderer;
 	Game game_engine;
 	MSG message_handle;
 	bool done = FALSE;
 
 	bool ok = TRUE;
-	if(!game_engine.initialise(window.get_handle(), FALSE, input_manage))
+	if(!renderer.initialise(window.get_handle(), window.get_width(), window.get_height(), FALSE))
+	{
+		ok = FALSE;
+	}
+	if(!game_engine.initialise(window.get_handle(), FALSE, input_manage, &renderer))
 	{
 		ok = FALSE;
 	}
