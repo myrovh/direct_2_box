@@ -46,18 +46,24 @@ LRESULT WINAPI WindowProcedure(HWND window_handler, UINT message_handle, WPARAM 
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	//Create window
 	Window window(hInstance, &WindowProcedure, 1024, 768, "Test Engine", "Test Engine");
-	input_manage = new Input_Manager(window.get_handle());
 	Renderer renderer;
 	Game game_engine;
 	MSG message_handle;
 	bool done = FALSE;
-
 	bool ok = TRUE;
+
+	//Create renderer
 	if(!renderer.initialise(window.get_handle(), window.get_width(), window.get_height(), FALSE))
 	{
 		ok = FALSE;
 	}
+
+	//Create input manager
+	input_manage = new Input_Manager(window.get_handle(), renderer.get_width(), renderer.get_height());
+
+	//Create game engine and load content
 	if(!game_engine.initialise(window.get_handle(), FALSE, input_manage, &renderer))
 	{
 		ok = FALSE;

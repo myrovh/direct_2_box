@@ -19,9 +19,11 @@ private:
 	bool previous_mouse[NUMBER_OF_MOUSE_BUTTONS];
 	int mouse_x_location;
 	int mouse_y_location;
+	UINT screen_width;
+	UINT screen_height;
 
 public:
-	Input_Manager(HWND window_handle);
+	Input_Manager(HWND window_handle, UINT width, UINT height);
 
 	void set_key_down(UINT key_code);
 	void set_key_up(UINT key_code);
@@ -36,6 +38,8 @@ public:
 	bool get_mouse_up(int mouse_button);
 	int get_mouse_x();
 	int get_mouse_y();
+	int get_mouse_x_centered();
+	int get_mouse_y_centered();
 
 	void begin_update();
 	void end_update();

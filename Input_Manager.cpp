@@ -1,6 +1,6 @@
 #include "Input_Manager.h"
 
-Input_Manager::Input_Manager(HWND windowHandle)
+Input_Manager::Input_Manager(HWND windowHandle, UINT width, UINT height)
 {
 	window_handle = windowHandle;
 
@@ -11,6 +11,9 @@ Input_Manager::Input_Manager(HWND windowHandle)
 
 	mouse_x_location = 0;
 	mouse_y_location = 0;
+
+	screen_width = width;
+	screen_height = height;
 }
 
 void Input_Manager::set_key_down(UINT key_code)
@@ -61,6 +64,16 @@ int Input_Manager::get_mouse_x()
 int Input_Manager::get_mouse_y()
 {
 	return mouse_y_location;
+}
+
+int Input_Manager::get_mouse_x_centered()
+{
+	return mouse_x_location - (screen_width / 2);
+}
+
+int Input_Manager::get_mouse_y_centered()
+{
+	return mouse_y_location - (screen_height / 2);
 }
 
 void Input_Manager::begin_update()
