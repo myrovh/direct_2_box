@@ -3,20 +3,17 @@
 Object::Object()
 {
 	entity_mesh = NULL;
-	x_rotation = 0.0f;
-	y_rotation = 0.0f;
-	z_rotation = 0.0f;
+	rotation = {0.0f, 0.0f, 0.0f};
 	scale_factor = 1.0f;
 	entity_type = NONE;
 }
-Object::Object(Mesh* model, D3DXVECTOR3 position, float x_rotation, float y_rotation,
-			   float z_rotation, float scale_factor)
+Object::Object(Mesh* model, D3DXVECTOR3 position, D3DXVECTOR3 rotation, float scale_factor)
 {
 	entity_mesh = model;
 	this->positon = position;
-	this->x_rotation = x_rotation;
-	this->y_rotation = y_rotation;
-	this->z_rotation = z_rotation;
+	this->rotation.x = rotation.x;
+	this->rotation.y = rotation.y;
+	this->rotation.z = rotation.z;
 	this->scale_factor = scale_factor;
 }
 
@@ -42,14 +39,14 @@ void Object::render(LPDIRECT3DDEVICE9 device)
 	{
 		D3DXMATRIX world;
 		D3DXMATRIX scale;
-		D3DXMATRIX rotation;
+		D3DXMATRIX rotation_matrix;
 		D3DXMATRIX translation;
 
 		D3DXMatrixScaling(&scale, scale_factor, scale_factor, scale_factor);
-		D3DXMatrixRotationYawPitchRoll(&rotation, y_rotation, x_rotation, z_rotation);
+		D3DXMatrixRotationYawPitchRoll(&rotation_matrix, rotation.y, rotation.x, rotation.z);
 		D3DXMatrixTranslation(&translation, positon.x, positon.y, positon.z);
 
-		world = scale * rotation * translation;
+		world = scale * rotation_matrix * translation;
 
 		device->SetTransform(D3DTS_WORLD, &world);
 

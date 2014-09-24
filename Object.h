@@ -13,17 +13,15 @@ class Object
 {
 protected:
 	D3DXVECTOR3 positon;
+	D3DXVECTOR3 rotation;
 	Mesh* entity_mesh;
-	float x_rotation;
-	float y_rotation;
-	float z_rotation;
 	float scale_factor;
 	object_type entity_type;
 
 public:
 	Object();
-	Object(Mesh* model, D3DXVECTOR3 position, float x_rotation, float y_rotation,
-		   float z_rotation, float scale_factor);
+	Object(Mesh* model, D3DXVECTOR3 position, D3DXVECTOR3 rotation,
+		   float scale_factor);
 	virtual ~Object();
 	void release(Mesh_Manager* mesh_manage);
 
