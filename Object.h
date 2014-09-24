@@ -12,7 +12,7 @@ enum object_type
 class Object
 {
 protected:
-	D3DXVECTOR3 positon;
+	D3DXVECTOR3 vector_position;
 	D3DXVECTOR3 rotation;
 	Mesh* entity_mesh;
 	float scale_factor;

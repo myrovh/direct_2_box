@@ -10,7 +10,7 @@ Object::Object()
 Object::Object(Mesh* model, D3DXVECTOR3 position, D3DXVECTOR3 rotation, float scale_factor)
 {
 	entity_mesh = model;
-	this->positon = position;
+	this->vector_position = position;
 	this->rotation.x = rotation.x;
 	this->rotation.y = rotation.y;
 	this->rotation.z = rotation.z;
@@ -44,7 +44,7 @@ void Object::render(LPDIRECT3DDEVICE9 device)
 
 		D3DXMatrixScaling(&scale, scale_factor, scale_factor, scale_factor);
 		D3DXMatrixRotationYawPitchRoll(&rotation_matrix, rotation.y, rotation.x, rotation.z);
-		D3DXMatrixTranslation(&translation, positon.x, positon.y, positon.z);
+		D3DXMatrixTranslation(&translation, vector_position.x, vector_position.y, vector_position.z);
 
 		world = scale * rotation_matrix * translation;
 
