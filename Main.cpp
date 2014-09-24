@@ -46,13 +46,14 @@ LRESULT WINAPI WindowProcedure(HWND window_handler, UINT message_handle, WPARAM 
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	//Create window
-	Window window(hInstance, &WindowProcedure, 1024, 768, "Test Engine", "Test Engine");
 	Renderer renderer;
 	Game game_engine;
 	MSG message_handle;
 	bool done = FALSE;
 	bool ok = TRUE;
+
+	//Create window
+	Window window(hInstance, &WindowProcedure, 1024, 768, "Test Engine", "Test Engine");
 
 	//Create renderer
 	if(!renderer.initialise(window.get_handle(), window.get_width(), window.get_height(), FALSE))
@@ -76,6 +77,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 	}
 
+	//If renderer and game_engine loaded
 	if(ok)
 	{
 		window.show();
@@ -86,6 +88,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		LARGE_INTEGER previous_timer_count;
 		QueryPerformanceCounter(&previous_timer_count);
 
+		//Start application loop
 		while(!done)
 		{
 			if(PeekMessage(&message_handle, NULL, NULL, NULL, PM_REMOVE))
