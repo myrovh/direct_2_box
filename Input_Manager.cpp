@@ -38,7 +38,7 @@ void Input_Manager::set_mouse_down(int mouse_button)
 
 bool Input_Manager::get_key_down(UINT key_code)
 {
-	return previous_keys[key_code] && !current_keys[key_code];
+	return current_keys[key_code];
 }
 
 bool Input_Manager::get_key_up(UINT key_code)
