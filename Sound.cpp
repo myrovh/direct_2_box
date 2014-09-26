@@ -47,7 +47,7 @@ bool Sound::load(IXAudio2* audio_engine, char* filename)
 	}
 
 	//Get Format of wave file
-	WAVEFORMATEX* wave_format = wave_file.GetFormat();
+	WAVEFORMATEX* pwfx = wave_file.GetFormat();
 
 	//Calculate number of bytes in the loaded file
 	byte_data_size = wave_file.GetSize();
@@ -61,7 +61,7 @@ bool Sound::load(IXAudio2* audio_engine, char* filename)
 	}
 
 	//Create source voice
-	if(FAILED(audio_engine->CreateSourceVoice(&source_voice, wave_format, 0U, 2.0f, this)))
+	if(FAILED(audio_engine->CreateSourceVoice(&source_voice, pwfx, 0U, 2.0f, this)))
 	{
 		//If files delete sound data
 		delete_byte_data();
