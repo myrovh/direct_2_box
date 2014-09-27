@@ -108,6 +108,7 @@ bool Renderer::initialise(HWND window_handler, UINT width, UINT height, bool ful
 }
 
 void Renderer::render(std::vector<Object*> object_queue,
+					  std::vector<Particle_Spawner*> particle_queue,
 					  std::vector<Button*> button_queue,
 					  std::vector<Text*> font_queue, Camera* camera)
 {
@@ -135,6 +136,21 @@ void Renderer::render(std::vector<Object*> object_queue,
 		{
 			button_queue[i]->render();
 		}
+
+		//Adjust render state before rendering particles
+		//TODO this is not an optimal method of setting render state might
+		direct3d_device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+		direct3d_device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		direct3d_device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+
+		for(size_t i = 0; i < particle_queue.size(); i++)
+		{
+			particle_queue[i]->render(direct3d_device);
+		}
+
+		//Set render state back to normal
+		direct3d_device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+		direct3d_device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
 		direct3d_device->EndScene();
 	}

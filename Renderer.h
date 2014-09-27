@@ -7,6 +7,7 @@
 #include "Text.h"
 #include "Camera.h"
 #include "Button.h"
+#include "Particle_Spawner.h"
 
 class Renderer
 {
@@ -22,7 +23,7 @@ public:
 	~Renderer();
 
 	bool initialise(HWND window_instance, UINT width, UINT height, bool fullscreen);
-	void render(std::vector<Object*> object_queue, std::vector<Button*> button_queue, 
+	void render(std::vector<Object*> object_queue, std::vector<Particle_Spawner*> particle_queue, std::vector<Button*> button_queue, 
 				std::vector<Text*> font_queue, Camera* camera);
 	void release();
 
