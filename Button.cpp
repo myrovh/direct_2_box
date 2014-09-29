@@ -30,6 +30,9 @@ Button::Button(Game* game, Texture* texture, LPD3DXFONT font,
 	center.x = width / 2;
 	center.y = height / 2;
 	center.z = 0;
+
+	//Default visibility of a button is visible
+	visible = TRUE;
 }
 
 Button::~Button()
@@ -53,34 +56,40 @@ bool Button::initialise_button(LPDIRECT3DDEVICE9 device)
 
 void Button::update(int mouse_x, int mouse_y, bool mouse_button)
 {
-	if ((mouse_x > border.left && mouse_x < border.right) &&
-		(mouse_y > border.top && mouse_y < border.bottom))
+	if(visible)
 	{
-		texture_window.top = height;
-		texture_window.bottom = height * 2;
-		if(mouse_button)
+		if((mouse_x > border.left && mouse_x < border.right) &&
+		   (mouse_y > border.top && mouse_y < border.bottom))
 		{
-			(m_gameObject->*on_click_action)(40);
+			texture_window.top = height;
+			texture_window.bottom = height * 2;
+			if(mouse_button)
+			{
+				(m_gameObject->*on_click_action)(40);
+			}
 		}
-	} 
-	else
-	{
-		texture_window.top = 0;
-		texture_window.bottom = height;
+		else
+		{
+			texture_window.top = 0;
+			texture_window.bottom = height;
+		}
 	}
 }
 
 void Button::render()
 {
-	sprite->Begin(D3DXSPRITE_ALPHABLEND);
+	if(visible)
+	{
+		sprite->Begin(D3DXSPRITE_ALPHABLEND);
 
-	sprite->Draw(texture->get_texture(), &texture_window, &center, &position,
-				 D3DCOLOR_COLORVALUE(1.0f, 1.0f, 1.0f, 1.0f));
+		sprite->Draw(texture->get_texture(), &texture_window, &center, &position,
+					 D3DCOLOR_COLORVALUE(1.0f, 1.0f, 1.0f, 1.0f));
 
-	sprite->End();
+		sprite->End();
 
-	font->DrawText(NULL, text.c_str(), text.length(), &border, DT_CENTER | DT_VCENTER,
-					D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+		font->DrawText(NULL, text.c_str(), text.length(), &border, DT_CENTER | DT_VCENTER,
+					   D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+	}
 }
 
 void Button::text_update(std::string text)

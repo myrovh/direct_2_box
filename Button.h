@@ -23,6 +23,7 @@ private:
 	typedef void(Game::*game_function_pointer)(int value);
 	game_function_pointer on_click_action;
 	Game* m_gameObject;
+	bool visible;
 
 public:
 	Button(Game* game, Texture* texture, LPD3DXFONT font,
@@ -30,10 +31,20 @@ public:
 		   D3DXVECTOR3 positon, game_function_pointer action);
 	~Button();
 	bool initialise_button(LPDIRECT3DDEVICE9 device);
+
+	bool get_is_visible(){
+		return visible;
+	}
+	void set_visible(){
+		visible = TRUE;
+	}
+	void set_invisible(){
+		visible = FALSE;
+	}
+
 	void text_update(std::string text);
 	void update(int mouse_x, int mouse_y, bool mouse_buttton);
 	void render();
-
 };
 
 #endif
