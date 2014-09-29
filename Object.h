@@ -29,7 +29,7 @@ public:
 	virtual object_type get_object_type() {
 		return entity_type;
 	}
-	bool get_is_visible(){
+	bool is_visible(){
 		return visible;
 	}
 	void set_visible(){
@@ -43,7 +43,4 @@ public:
 	virtual void render(LPDIRECT3DDEVICE9 device);
 };
 
-// Create the bounding box inside here
-// using two points dynamically generated or a bounding sphere using center point and a radius
-// x, y, z min and max for bounding box
 #endif

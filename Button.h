@@ -32,7 +32,7 @@ public:
 	~Button();
 	bool initialise_button(LPDIRECT3DDEVICE9 device);
 
-	bool get_is_visible(){
+	bool is_visible(){
 		return visible;
 	}
 	void set_visible(){

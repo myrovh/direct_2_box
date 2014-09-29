@@ -10,22 +10,21 @@ private:
 	std::string text;
 	DWORD font_format;
 	D3DCOLOR colour;
-	bool show;
+	bool visible;
 
 public:
 	Text();
-	Text(RECT positiont, DWORD font_format, D3DCOLOR colour, bool show);
+	Text(RECT positiont, DWORD font_format, D3DCOLOR colour);
 	~Text() {}
 
-	void toggle_visibility();
 	void set_visible() {
-		show = TRUE;
+		visible = TRUE;
 	}
 	void set_invisible() {
-		show = FALSE;
+		visible = FALSE;
 	}
 	bool is_visible() {
-		return show;
+		return visible;
 	}
 
 	void update(std::string);
