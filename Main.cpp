@@ -69,13 +69,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		ok = FALSE;
 	}
-	else
-	{
-		if(!game_engine.initialise_content())
-		{
-			ok = FALSE;
-		}
-	}
 
 	//If renderer and game_engine loaded
 	if(ok)
