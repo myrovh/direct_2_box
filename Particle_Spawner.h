@@ -33,6 +33,7 @@ private:
 	DWORD active_count;
 	float current_time;
 	float last_update;
+	bool visible;
 
 	float max_particle_size;
 
@@ -100,6 +101,16 @@ public:
 	}
 	void set_particle_texture(Texture* texture) {
 		this->particle_texture = texture;
+	}
+	void set_visible(){
+		visible = TRUE;
+	}
+	void set_invisible(){
+		visible = FALSE;
+	}
+
+	bool is_visible(){
+		return visible;
 	}
 
 	bool initialise(LPDIRECT3DDEVICE9 device);
