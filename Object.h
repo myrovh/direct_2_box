@@ -17,6 +17,7 @@ protected:
 	Mesh* entity_mesh;
 	float scale_factor;
 	object_type entity_type;
+	bool visible;
 
 public:
 	Object();
@@ -27,6 +28,15 @@ public:
 
 	virtual object_type get_object_type() {
 		return entity_type;
+	}
+	bool get_is_visible(){
+		return visible;
+	}
+	void set_visible(){
+		visible = TRUE;
+	}
+	void set_invisible(){
+		visible = FALSE;
 	}
 
 	virtual void update(float timestep) = 0;
