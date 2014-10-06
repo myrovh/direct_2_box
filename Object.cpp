@@ -3,17 +3,16 @@
 Object::Object()
 {
 	entity_mesh = NULL;
-	rotation = {0.0f, 0.0f, 0.0f};
+	rotation_vec = {0.0f, 0.0f, 0.0f};
 	scale_factor = 1.0f;
 	entity_type = NONE;
 }
-Object::Object(Mesh* model, D3DXVECTOR3 position, D3DXVECTOR3 rotation, float scale_factor)
+Object::Object(Mesh* model, D3DXVECTOR3 position, D3DXVECTOR3 rotation_vec, float scale_factor)
 {
 	entity_mesh = model;
 	this->vector_position = position;
-	this->rotation.x = rotation.x;
-	this->rotation.y = rotation.y;
-	this->rotation.z = rotation.z;
+	D3DXQuaternionRotationYawPitchRoll(&rotation, rotation_vec.y, rotation_vec.x, rotation_vec.z);
+	D3DXQuaternionNormalize(&rotation, &rotation);
 	this->scale_factor = scale_factor;
 }
 
@@ -48,7 +47,7 @@ void Object::render(LPDIRECT3DDEVICE9 device)
 			D3DXMATRIX translation;
 
 			D3DXMatrixScaling(&scale, scale_factor, scale_factor, scale_factor);
-			D3DXMatrixRotationYawPitchRoll(&rotation_matrix, rotation.y, rotation.x, rotation.z);
+			D3DXMatrixRotationQuaternion(&rotation_matrix, &rotation);
 			D3DXMatrixTranslation(&translation, vector_position.x, vector_position.y, vector_position.z);
 
 			world = scale * rotation_matrix * translation;

@@ -13,7 +13,8 @@ class Object
 {
 protected:
 	D3DXVECTOR3 vector_position;
-	D3DXVECTOR3 rotation;
+	D3DXQUATERNION rotation;
+	float axis_rotation;
 	Mesh* entity_mesh;
 	float scale_factor;
 	object_type entity_type;
