@@ -3,7 +3,6 @@
 Object::Object()
 {
 	entity_mesh = NULL;
-	rotation_vec = {0.0f, 0.0f, 0.0f};
 	scale_factor = 1.0f;
 	entity_type = NONE;
 }

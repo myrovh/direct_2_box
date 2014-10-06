@@ -27,6 +27,10 @@ public:
 	virtual ~Object();
 	void release(Mesh_Manager* mesh_manage);
 
+	D3DXVECTOR3 get_object_location(){
+		//TODO privacy leak
+		return vector_position;
+	}
 	virtual object_type get_object_type() {
 		return entity_type;
 	}
