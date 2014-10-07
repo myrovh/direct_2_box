@@ -14,7 +14,6 @@ public:
 
 	D3DXMATRIX get_view();
 	D3DXMATRIX get_projection();
-	virtual void update(float timestep) {};
 };
 
 #endif

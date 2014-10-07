@@ -21,8 +21,8 @@ public:
 		   float field_of_fiew, float aspect_ratio, float near_plane, float far_plane);
 	virtual ~Camera() {};
 
-	D3DXMATRIX get_view();
-	D3DXMATRIX get_projection();
+	virtual D3DXMATRIX get_view();
+	virtual D3DXMATRIX get_projection();
 	virtual void update(float timestep) {};
 };
 

@@ -20,9 +20,20 @@ Camera_Third::Camera_Third(D3DXVECTOR3 position, Object* look_at_target, D3DXVEC
 D3DXMATRIX Camera_Third::get_view()
 {
 	D3DXMATRIX view;
-	D3DXVECTOR3 look_at_vector = look_at_target->get_object_location();
-	D3DXVECTOR3 camera_location = look_at_vector + position;
-	D3DXMatrixLookAtLH(&view, &camera_location, &look_at_vector, &up_direction);
+	D3DXQUATERNION rotation = look_at_target->get_object_rotation();
+	D3DXVECTOR3 look_at_position = look_at_target->get_object_location();
+	D3DXQUATERNION rotation_inverse;
+	D3DXQuaternionConjugate(&rotation_inverse, &rotation);
+	D3DXQUATERNION offset_quaternion(position.x, position.y, position.z, 0.0f);
+
+	D3DXQUATERNION rotated_offset = rotation_inverse * offset_quaternion * rotation;
+
+	D3DXVECTOR3 offset_vector(rotated_offset.x, rotated_offset.y, rotated_offset.z);
+	D3DXVECTOR3 camera_location = offset_vector + look_at_position;
+
+
+
+	D3DXMatrixLookAtLH(&view, &camera_location, &look_at_position, &up_direction);
 	return view;
 }
 

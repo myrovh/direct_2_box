@@ -31,6 +31,10 @@ public:
 		//TODO privacy leak
 		return vector_position;
 	}
+	D3DXQUATERNION get_object_rotation(){
+		//TODO privacy leak
+		return rotation;
+	}
 	virtual object_type get_object_type() {
 		return entity_type;
 	}
