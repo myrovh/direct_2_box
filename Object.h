@@ -22,8 +22,7 @@ protected:
 
 public:
 	Object();
-	Object(Mesh* model, D3DXVECTOR3 position, D3DXVECTOR3 rotation,
-		   float scale_factor);
+	Object(Mesh* model, D3DXVECTOR3 position, float scale_factor);
 	virtual ~Object();
 	void release(Mesh_Manager* mesh_manage);
 

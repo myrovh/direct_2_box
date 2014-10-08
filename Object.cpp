@@ -6,13 +6,12 @@ Object::Object()
 	scale_factor = 1.0f;
 	entity_type = NONE;
 }
-Object::Object(Mesh* model, D3DXVECTOR3 position, D3DXVECTOR3 rotation_vec, float scale_factor)
+Object::Object(Mesh* model, D3DXVECTOR3 position, float scale_factor)
 {
 	entity_mesh = model;
 	this->vector_position = position;
-	D3DXQuaternionRotationYawPitchRoll(&rotation, rotation_vec.y, rotation_vec.x, rotation_vec.z);
-	D3DXQuaternionNormalize(&rotation, &rotation);
 	this->scale_factor = scale_factor;
+	D3DXQuaternionIdentity(&rotation);
 }
 
 Object::~Object()
