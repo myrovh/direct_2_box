@@ -29,6 +29,7 @@ D3DXMATRIX Camera_Third::get_view()
 	D3DXQUATERNION rotated_offset = rotation_inverse * offset_quaternion * rotation;
 
 	D3DXVECTOR3 offset_vector(rotated_offset.x, rotated_offset.y, rotated_offset.z);
+	offset_vector = -offset_vector;
 	D3DXVECTOR3 camera_location = offset_vector + look_at_position;
 
 
