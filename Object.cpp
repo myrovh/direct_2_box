@@ -5,6 +5,7 @@ Object::Object()
 	entity_mesh = NULL;
 	scale_factor = 1.0f;
 	entity_type = NONE;
+	axis_rotation = cos(0/2);
 }
 Object::Object(Mesh* model, D3DXVECTOR3 position, float scale_factor)
 {
@@ -12,6 +13,7 @@ Object::Object(Mesh* model, D3DXVECTOR3 position, float scale_factor)
 	this->vector_position = position;
 	this->scale_factor = scale_factor;
 	D3DXQuaternionIdentity(&rotation);
+	axis_rotation = cos(0/2);
 }
 
 Object::~Object()
