@@ -68,12 +68,34 @@ int Input_Manager::get_mouse_y()
 
 int Input_Manager::get_mouse_x_centered()
 {
-	return mouse_x_location - (screen_width / 2);
+	int width = screen_width;
+	int centered_x = mouse_x_location - (width / 2);
+
+	if(centered_x > width / 2)
+	{
+		return width / 2;
+	}
+	else if(centered_x < -(width / 2))
+	{
+		return -width / 2;
+	}
+	return centered_x;
 }
 
 int Input_Manager::get_mouse_y_centered()
 {
-	return mouse_y_location - (screen_height / 2);
+	int height = screen_height;
+	int centered_y = mouse_y_location - (height / 2);
+
+	if(centered_y > height / 2)
+	{
+		return height / 2;
+	}
+	else if(centered_y < -(height / 2))
+	{
+		return -height / 2;
+	}
+	return centered_y;
 }
 
 void Input_Manager::begin_update()
