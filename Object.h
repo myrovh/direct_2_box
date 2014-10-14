@@ -3,6 +3,7 @@
 
 #include <d3dx9.h>
 #include "Mesh_Manager.h"
+#include "Collision.h"
 
 enum object_type
 {
@@ -19,6 +20,7 @@ protected:
 	float scale_factor;
 	object_type entity_type;
 	bool visible;
+	Collision* hit_box;
 
 public:
 	Object();
@@ -26,6 +28,9 @@ public:
 	virtual ~Object();
 	void release(Mesh_Manager* mesh_manage);
 
+	Collision* get_hit_box() {
+		return hit_box;
+	}
 	D3DXVECTOR3 get_object_location(){
 		//TODO privacy leak
 		return vector_position;
