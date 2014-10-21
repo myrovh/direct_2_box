@@ -64,7 +64,7 @@ variable_map Super_Dumb_Script::load_variables(std::string file_path)
 		//Scan and load each line
 		do
 		{
-			char temp_char[50];
+			char temp_char[LINE_SIZE];
 			file_in.getline(temp_char, LINE_SIZE);
 			raw_string = temp_char;
 
@@ -94,6 +94,10 @@ variable_map Super_Dumb_Script::load_variables(std::string file_path)
 					else if(variable_type == "STRING")
 					{
 						resolved_data = variable_data;
+					}
+					else
+					{
+						resolved_data = "error: invalid type definition";
 					}
 					//take the first string and the value inserted into a Property and insert into variable_map
 					new_variables.insert(std::pair<std::string, variable_store>(variable_name, resolved_data));
