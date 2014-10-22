@@ -1,6 +1,7 @@
 #ifndef MESH_H
 #define MESH_H
 #include <d3dx9.h>
+#include <string>
 #include "Texture_Manager.h"
 
 class Mesh
@@ -12,7 +13,7 @@ private:
 	DWORD number_of_materials;
 	D3DMATERIAL9* materials;
 	Texture** mesh_textures;
-	const char* filename;
+	std::string filename;
 
 	void release(Texture_Manager* texture_manage);
 
@@ -34,9 +35,9 @@ protected:
 	}
 
 public:
-	bool load(LPDIRECT3DDEVICE9 device, const char* filename, Texture_Manager* texture_manage);
+	bool load(LPDIRECT3DDEVICE9 device, std::string filename, Texture_Manager* texture_manage);
 
-	const char* get_filename()
+	std::string get_filename()
 	{
 		return filename;
 	}

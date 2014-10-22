@@ -8,12 +8,11 @@ Mesh::Mesh()
 	number_of_materials = NULL;
 	materials = NULL;
 	mesh_textures = NULL;
-	filename = NULL;
 }
 
-bool Mesh::load(LPDIRECT3DDEVICE9 device, const char* filename, Texture_Manager* texture_manage)
+bool Mesh::load(LPDIRECT3DDEVICE9 device, std::string filename, Texture_Manager* texture_manage)
 {
-	if(FAILED(D3DXLoadMeshFromX(filename, D3DXMESH_SYSTEMMEM, device, NULL, &material_buffer, NULL, &number_of_materials, &mesh_storage)))
+	if(FAILED(D3DXLoadMeshFromX(filename.c_str(), D3DXMESH_SYSTEMMEM, device, NULL, &material_buffer, NULL, &number_of_materials, &mesh_storage)))
 	{
 		return FALSE;
 	}

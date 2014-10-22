@@ -15,8 +15,8 @@ private:
 public:
 	Mesh_Manager(Texture_Manager* texture_manage);
 	~Mesh_Manager();
-	bool load(LPDIRECT3DDEVICE9 device, const char* filename);
-	Mesh* get_mesh(const char* filename);
+	bool load(LPDIRECT3DDEVICE9 device, std::string filename);
+	Mesh* get_mesh(std::string filename);
 	void release_mesh(Mesh* mesh);
 	void release();
 };

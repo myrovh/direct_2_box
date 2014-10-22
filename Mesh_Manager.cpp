@@ -10,11 +10,11 @@ Mesh_Manager::~Mesh_Manager()
 	release();
 }
 
-bool Mesh_Manager::load(LPDIRECT3DDEVICE9 device, const char* filename)
+bool Mesh_Manager::load(LPDIRECT3DDEVICE9 device, std::string filename)
 {
 	Mesh* temp_mesh = NULL;
 
-	if(filename == 0)
+	if(filename.empty())
 	{
 		return FALSE;
 	}
@@ -27,8 +27,7 @@ bool Mesh_Manager::load(LPDIRECT3DDEVICE9 device, const char* filename)
 	temp_mesh = new Mesh();
 	if(temp_mesh->load(device, filename, texture_manage))
 	{
-		std::string filename_string = filename;
-		mesh_queue[filename_string] = temp_mesh;
+		mesh_queue.insert(std::pair<std::string, Mesh*>(filename, temp_mesh));
 		temp_mesh = NULL;
 		return TRUE;
 	}
@@ -40,10 +39,9 @@ bool Mesh_Manager::load(LPDIRECT3DDEVICE9 device, const char* filename)
 	}
 }
 
-Mesh* Mesh_Manager::get_mesh(const char* filename)
+Mesh* Mesh_Manager::get_mesh(std::string filename)
 {
-	std::string filename_string = filename;
-	mesh_map::const_iterator search_result = mesh_queue.find(filename_string);
+	mesh_map::const_iterator search_result = mesh_queue.find(filename);
 
 	if(search_result != mesh_queue.end())
 	{

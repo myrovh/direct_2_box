@@ -25,7 +25,7 @@ bool Texture_Manager::load(LPDIRECT3DDEVICE9 device, std::string filename)
 
 	temp_texture = new Texture();
 
-	if(temp_texture->load(device, filename.c_str()))
+	if(temp_texture->load(device, filename))
 	{
 		texture_queue.insert(std::pair<std::string, Texture*>(filename, temp_texture));
 		temp_texture = NULL;
