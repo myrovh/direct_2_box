@@ -16,8 +16,8 @@ private:
 public:
 	Texture_Manager();
 	~Texture_Manager();
-	bool load(LPDIRECT3DDEVICE9 device, const char* filename);
-	Texture* get_texture(const char* filename);
+	bool load(LPDIRECT3DDEVICE9 device, std::string);
+	Texture* get_texture(std::string filename);
 	void release_texture(Texture* texture);
 	void release();
 };

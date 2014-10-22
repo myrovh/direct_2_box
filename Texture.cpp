@@ -4,7 +4,6 @@ Texture::Texture()
 {
 	reference_count = 0;
 	texture_storage = NULL;
-	filename = NULL;
 }
 
 Texture::~Texture()
@@ -12,9 +11,9 @@ Texture::~Texture()
 	release();
 }
 
-bool Texture::load(LPDIRECT3DDEVICE9 device, const char* filename)
+bool Texture::load(LPDIRECT3DDEVICE9 device, std::string filename)
 {
-	if(FAILED(D3DXCreateTextureFromFile(device, filename, &texture_storage)))
+	if(FAILED(D3DXCreateTextureFromFile(device, filename.c_str(), &texture_storage)))
 	{
 		return FALSE;
 	}

@@ -9,11 +9,11 @@ Texture_Manager::~Texture_Manager()
 	release();
 }
 
-bool Texture_Manager::load(LPDIRECT3DDEVICE9 device, const char* filename)
+bool Texture_Manager::load(LPDIRECT3DDEVICE9 device, std::string filename)
 {
 	Texture* temp_texture = NULL;
 
-	if(filename == 0)
+	if(filename.size() == 0)
 	{
 		return FALSE;
 	}
@@ -25,10 +25,9 @@ bool Texture_Manager::load(LPDIRECT3DDEVICE9 device, const char* filename)
 
 	temp_texture = new Texture();
 
-	if(temp_texture->load(device, filename))
+	if(temp_texture->load(device, filename.c_str()))
 	{
-		std::string filename_string = filename;
-		texture_queue[filename_string] = temp_texture;
+		texture_queue.insert(std::pair<std::string, Texture*>(filename, temp_texture));
 		temp_texture = NULL;
 		return TRUE;
 	}
@@ -40,11 +39,9 @@ bool Texture_Manager::load(LPDIRECT3DDEVICE9 device, const char* filename)
 	}
 }
 
-Texture* Texture_Manager::get_texture(const char* filename)
+Texture* Texture_Manager::get_texture(std::string filename)
 {
-	std::string filename_string = filename;
-
-	texture_map::const_iterator search_result = texture_queue.find(filename_string);
+	texture_map::const_iterator search_result = texture_queue.find(filename);
 
 	if(search_result != texture_queue.end())
 	{
