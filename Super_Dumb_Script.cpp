@@ -91,6 +91,10 @@ variable_map Super_Dumb_Script::load_variables(std::string file_path)
 					{
 						resolved_data = boost::lexical_cast<float>(variable_data);
 					}
+					else if(variable_type == "BOOL")
+					{
+						resolved_data = boost::lexical_cast<bool>(variable_data);
+					}
 					else if(variable_type == "STRING")
 					{
 						resolved_data = variable_data;
