@@ -38,9 +38,9 @@ bool Sound_Manager::initialise()
 	return TRUE;
 }
 
-bool Sound_Manager::load(char* filename)
+bool Sound_Manager::load(std::string filename)
 {
-	if(filename == 0)
+	if(filename.empty())
 	{
 		return FALSE;
 	}
@@ -54,8 +54,7 @@ bool Sound_Manager::load(char* filename)
 
 	if(temp_sound->load(audio_system, filename))
 	{
-		std::string filename_string = filename;
-		sound_queue[filename_string] = temp_sound;
+		sound_queue.insert(std::pair<std::string, Sound*>(filename, temp_sound));
 		temp_sound = NULL;
 		return TRUE;
 	}
@@ -67,11 +66,9 @@ bool Sound_Manager::load(char* filename)
 	}
 }
 
-Sound* Sound_Manager::get_sound(char* filename)
+Sound* Sound_Manager::get_sound(std::string filename)
 {
-	std::string filename_string = filename;
-
-	sound_map::const_iterator search_result = sound_queue.find(filename_string);
+	sound_map::const_iterator search_result = sound_queue.find(filename);
 
 	if(search_result != sound_queue.end())
 	{

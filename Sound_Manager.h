@@ -18,8 +18,8 @@ public:
 	Sound_Manager();
 	~Sound_Manager();
 	bool initialise();
-	bool load(char* filename);
-	Sound* get_sound(char* filename);
+	bool load(std::string filename);
+	Sound* get_sound(std::string filename);
 	void release_sound(Sound* sound);
 	void release();
 };

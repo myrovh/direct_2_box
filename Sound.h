@@ -1,11 +1,12 @@
 #ifndef SOUND_H
 #define SOUND_H
 #include <XAudio2.h>
+#include <string>
 
 class Sound : public IXAudio2VoiceCallback
 {
 private:
-	const char* filename;
+	std::string filename;
 	IXAudio2SourceVoice* source_voice;
 	UINT byte_data_size;
 	BYTE* byte_data;
@@ -28,10 +29,10 @@ protected:
 	void release();
 
 public:
-	const char* get_filename() {
+	std::string get_filename() {
 		return filename;
 	}
-	bool load(IXAudio2* audio_engine, char* filename);
+	bool load(IXAudio2* audio_engine, std::string filename);
 	void play();
 	void stop();
 	void reset();

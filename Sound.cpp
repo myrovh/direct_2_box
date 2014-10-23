@@ -3,7 +3,6 @@
 
 Sound::Sound() 
 {
-	filename = NULL;
 	source_voice = NULL;
 	byte_data_size = 0;
 	byte_data = NULL;
@@ -37,11 +36,11 @@ void Sound::delete_byte_data()
 	}
 }
 
-bool Sound::load(IXAudio2* audio_engine, char* filename) 
+bool Sound::load(IXAudio2* audio_engine, std::string filename) 
 {
 	//Load wave file
 	WaveFile wave_file;
-	if(FAILED(wave_file.Open(filename, NULL, WAVEFILE_READ)))
+	if(FAILED(wave_file.Open(const_cast<char*>(filename.c_str()), NULL, WAVEFILE_READ)))
 	{
 		return FALSE;
 	}
