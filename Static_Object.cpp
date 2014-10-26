@@ -3,6 +3,7 @@
 Static_Object::Static_Object(Mesh* model, variable_map* constructor_settings, variable_map* variable_settings)
 		 : Object(model, constructor_settings, variable_settings)
 {
+	reload_variables();
 }
 
 void Static_Object::update(float timestep)
@@ -14,4 +15,9 @@ void Static_Object::update(float timestep)
 		D3DXQuaternionNormalize(&rotation_test, &rotation_test);
 		rotation *= rotation_test;
 	}
+}
+
+void Static_Object::reload_variables()
+{
+	rotate_speed = boost::any_cast<float>(variable_settings->at("rotate_speed"));
 }

@@ -1,7 +1,6 @@
 #ifndef STATIC_OBJECT_H
 #define STATIC_OBJECT_H
 #include "../engine/Object.h"
-#include "../engine/Collision_Sphere.h"
 
 class Static_Object : public Object
 {
@@ -15,6 +14,7 @@ public:
 		this->rotate_speed = rotate_speed;
 	}
 	void update(float timestep);
+	void reload_variables();
 };
 
 #endif

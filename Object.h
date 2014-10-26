@@ -50,6 +50,7 @@ public:
 	}
 
 	virtual void update(float timestep) = 0;
+	virtual void reload_variables() = 0;
 	virtual void render(LPDIRECT3DDEVICE9 device);
 };
 
