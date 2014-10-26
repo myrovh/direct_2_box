@@ -30,7 +30,8 @@ private:
 public:
 	Super_Dumb_Script();
 	~Super_Dumb_Script();
-	bool load_files(); //input a string that defines what extension gets loaded or reloaded
+	bool load_constructor_files(); //input a string that defines what extension gets loaded or reloaded
+	bool load_variable_files(); //input a string that defines what extension gets loaded or reloaded
 	variable_map* get_file(std::string file_name);
 };
 

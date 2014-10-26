@@ -7,7 +7,6 @@ Super_Dumb_Script::Super_Dumb_Script()
 	file_variable_pattern = "*.sdsv";
 	line_comment = "//";
 	line_delineation = "=";
-	search_path = file_directory + file_constructor_pattern;
 }
 
 Super_Dumb_Script::~Super_Dumb_Script()
@@ -15,8 +14,41 @@ Super_Dumb_Script::~Super_Dumb_Script()
 
 }
 
-bool Super_Dumb_Script::load_files()
+bool Super_Dumb_Script::load_constructor_files()
 {
+	search_path = file_directory + file_constructor_pattern;
+	find_handle = FindFirstFile(search_path.c_str(), &find_data);
+
+	if(find_handle == INVALID_HANDLE_VALUE)
+	{
+		return FALSE;
+	}
+
+	do 
+	{
+		std::string file_path = file_directory + find_data.cFileName;
+		std::ifstream in(file_path.c_str());
+		if(in)
+		{
+			variable_map temp_variable = load_variables(file_path);
+			if(temp_variable.size() > 0)
+			{
+				storage.insert(std::pair<std::string, variable_map*>(find_data.cFileName, new variable_map(temp_variable)));
+			}
+		}
+	} while (FindNextFile(find_handle, &find_data) > 0);
+
+	if(GetLastError() != ERROR_NO_MORE_FILES)
+	{
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+bool Super_Dumb_Script::load_variable_files()
+{
+	search_path = file_directory + file_variable_pattern;
 	find_handle = FindFirstFile(search_path.c_str(), &find_data);
 
 	if(find_handle == INVALID_HANDLE_VALUE)
@@ -34,7 +66,16 @@ bool Super_Dumb_Script::load_files()
 			variable_map temp_variable = load_variables(file_path);
 			if(temp_variable.size() > 0)
 			{
-				storage.insert(std::pair<std::string, variable_map*>(find_data.cFileName, new variable_map(temp_variable)));
+				file_map::const_iterator search_result = storage.find(find_data.cFileName);
+				if(search_result != storage.end())
+				{
+					storage.erase(search_result);
+					storage.insert(std::pair<std::string, variable_map*>(find_data.cFileName, new variable_map(temp_variable)));
+				}
+				else
+				{
+					storage.insert(std::pair<std::string, variable_map*>(find_data.cFileName, new variable_map(temp_variable)));
+				}
 			}
 		}
 	} while (FindNextFile(find_handle, &find_data) > 0);
