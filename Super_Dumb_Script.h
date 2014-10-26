@@ -8,8 +8,7 @@
 #include <boost/any.hpp>
 #include <boost/lexical_cast.hpp>
 
-typedef boost::any variable_store;
-typedef std::map<std::string, variable_store> variable_map;
+typedef std::map<std::string, boost::any> variable_map;
 typedef std::map<std::string, variable_map*> file_map;
 #define LINE_SIZE 100
 

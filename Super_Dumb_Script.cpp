@@ -55,7 +55,7 @@ variable_map Super_Dumb_Script::load_variables(std::string file_path)
 	std::string variable_type;
 	std::string variable_data;
 	variable_map new_variables;
-	variable_store resolved_data;
+	boost::any resolved_data;
 	
 	//Open the file make sure it is not broken
 	file_in.open(file_path.c_str());
@@ -104,7 +104,7 @@ variable_map Super_Dumb_Script::load_variables(std::string file_path)
 						resolved_data = "error: invalid type definition";
 					}
 					//take the first string and the value inserted into a Property and insert into variable_map
-					new_variables.insert(std::pair<std::string, variable_store>(variable_name, resolved_data));
+					new_variables.insert(std::pair<std::string, boost::any>(variable_name, resolved_data));
 				}
 			}
 		} while(file_in);
