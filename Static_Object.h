@@ -9,8 +9,7 @@ private:
 	float rotate_speed;
 
 public:
-	Static_Object(Mesh* model, D3DXVECTOR3 position, float scale);
-	Static_Object(Mesh* model, D3DXVECTOR3 position, float scale, float rotate_speed);
+	Static_Object(Mesh* model, variable_map* constructor_settings, variable_map* variable_settings);
 
 	void set_rotate_speed(float rotate_speed) {
 		this->rotate_speed = rotate_speed;

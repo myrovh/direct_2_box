@@ -4,18 +4,36 @@ Object::Object()
 {
 	entity_mesh = NULL;
 	scale_factor = 1.0f;
-	entity_type = NONE;
+	entity_type = "none";
 	axis_rotation = cos(0/2);
 	hit_box = NULL;
 }
-Object::Object(Mesh* model, D3DXVECTOR3 position, float scale_factor)
+Object::Object(Mesh* mesh, variable_map* constructor_settings, variable_map* variable_settings)
 {
-	entity_mesh = model;
-	this->vector_position = position;
-	this->scale_factor = scale_factor;
+	//Assign dynamic variable pointer
+	this->variable_settings = variable_settings;
+	entity_type = boost::any_cast<std::string>(constructor_settings->at("entity_type"));
+
+	//Assign mesh
+	entity_mesh = mesh;
+	scale_factor = boost::any_cast<float>(constructor_settings->at("scale"));
+
+	//Set starting position
+	vector_position.x = boost::any_cast<float>(constructor_settings->at("vec_x"));
+	vector_position.y = boost::any_cast<float>(constructor_settings->at("vec_y"));
+	vector_position.z = boost::any_cast<float>(constructor_settings->at("vec_z"));
+
+	//Set rotations at zero
 	D3DXQuaternionIdentity(&rotation);
 	axis_rotation = cos(0/2);
-	//this->hit_box = NULL;
+
+	//Build Hit Sphere
+	D3DXVECTOR3 hit_offset;
+	hit_offset.x = boost::any_cast<float>(constructor_settings->at("hit_offset_x"));
+	hit_offset.y = boost::any_cast<float>(constructor_settings->at("hit_offset_y"));
+	hit_offset.z = boost::any_cast<float>(constructor_settings->at("hit_offset_z"));
+	float hit_radius = boost::any_cast<float>(constructor_settings->at("hit_radius"));
+	this->hit_box = new Collision_Sphere(hit_offset, hit_radius);
 }
 
 Object::~Object()

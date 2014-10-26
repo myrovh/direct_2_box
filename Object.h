@@ -3,12 +3,8 @@
 
 #include <d3dx9.h>
 #include "Mesh_Manager.h"
-#include "Collision.h"
-
-enum object_type
-{
-	NONE
-};
+#include "Super_Dumb_Script.h"
+#include "Collision_Sphere.h"
 
 class Object
 {
@@ -18,13 +14,14 @@ protected:
 	float axis_rotation;
 	Mesh* entity_mesh;
 	float scale_factor;
-	object_type entity_type;
+	std::string entity_type;
 	bool visible;
 	Collision* hit_box;
+	variable_map* variable_settings;
 
 public:
 	Object();
-	Object(Mesh* model, D3DXVECTOR3 position, float scale_factor);
+	Object(Mesh* mesh, variable_map* constructor_settings, variable_map* variable_settings);
 	virtual ~Object();
 	void release(Mesh_Manager* mesh_manage);
 
@@ -39,7 +36,7 @@ public:
 		//TODO privacy leak
 		return rotation;
 	}
-	virtual object_type get_object_type() {
+	virtual std::string get_object_type() {
 		return entity_type;
 	}
 	bool is_visible(){
