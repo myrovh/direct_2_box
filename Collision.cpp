@@ -22,6 +22,11 @@ bool Collision::check_collision(Collision* target1, Collision* target2)
 		Collision_Sphere* sphere1 = (Collision_Sphere*)target1;
 		Collision_Sphere* sphere2 = (Collision_Sphere*)target2;
 
+		if(target1->get_postion() == 0 || target2->get_postion() == 0)
+		{
+			return FALSE;
+		}
+
 		//calculate true position of targets
 		D3DXVECTOR3 sphere1_location = sphere1->get_offset() + sphere1->get_postion();
 		D3DXVECTOR3 sphere2_location = sphere2->get_offset() + sphere2->get_postion();
